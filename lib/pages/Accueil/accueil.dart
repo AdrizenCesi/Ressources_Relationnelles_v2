@@ -13,18 +13,8 @@ class _AccueilState extends State<Accueil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body : Container(
-        decoration: BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              turquoise,
-              brownDark,
-            ],
-          )),
-          child: Center(child: cardPost(),),
-      )
+      backgroundColor: brownLight,
+      body :  Center(child: cardPost(),),
     );
   }
 }

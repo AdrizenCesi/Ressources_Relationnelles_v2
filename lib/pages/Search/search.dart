@@ -12,18 +12,8 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body : Container(
-        decoration: BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              turquoise,
-              brownDark,
-            ],
-          )),
-          child: Center(child: Text('Search'),),
-      )
+      backgroundColor: brownLight,
+      body : Center(child: Text('Search'),),
     );
   }
 }

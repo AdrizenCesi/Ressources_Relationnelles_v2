@@ -11,7 +11,6 @@ class AuthenticateScreen extends StatefulWidget {
 }
 
 class _AuthenticateScreenState extends State<AuthenticateScreen> {
-  final AuthenticationService _auth = AuthenticationService();
   final _formKey = GlobalKey<FormState>();
   String error = '';
   bool loading = false;
@@ -51,9 +50,20 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
   Widget build(BuildContext context) {
     var wi = MediaQuery.of(context).size.width;
     var he = MediaQuery.of(context).size.height;
-    return Scaffold(
+    return Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+              gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              turquoise,
+              brownDark,
+            ],
+          )),
+        child: Scaffold(
       backgroundColor: Colors.transparent,
-      body: SingleChildScrollView(
+      body:  SingleChildScrollView(
         child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Column(
@@ -61,7 +71,9 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                   SizedBox(height: he*0.2,),
 
                   Text(
-                    'S\'inscrire',
+                    showSignIn
+                    ? 'Se connecter'
+                    : 'S\'inscrire',
                     style: new TextStyle(
                         fontSize: 30.0,
                         fontWeight: FontWeight.bold,
@@ -74,7 +86,9 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                       child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(
+                      showSignIn
+                      ? Container()
+                      : CircleAvatar(
                         radius: wi * 0.17,
                         backgroundColor: brown.withOpacity(0.3),
                         child: Icon(
@@ -86,7 +100,10 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                       SizedBox(
                         height: 20,
                       ),
-                      Row(
+
+                      showSignIn
+                      ? Container()
+                      : Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
@@ -138,6 +155,18 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                       SizedBox(
                         height: 10,
                       ),
+
+                      GestureDetector(
+                        onTap: () {toggleView();},
+                        child: Text(
+                          showSignIn
+                          ? 'Créer un compte'
+                          : 'Connectez-vous'
+                        ),
+                      ),
+
+
+                      
                       SizedBox(
                         width: wi * 1,
                         height: he * 0.05,
@@ -152,32 +181,49 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                   borderRadius: BorderRadius.circular(18.0),
                                 ))),
                             onPressed: () async {
-                              if (_formKey.currentState?.validate() == true) {
-                                var name = cName.value.text;
-                                var firstname = cFirstname.value.text;
-                                var email = cEmail.value.text;
-                                var password = cPassword.value.text;
 
-                                dynamic result = await _auth.register(email, password);
+                              Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => HomeScreen()));
+                              
+                            },
+                            child: Text(showSignIn
+                            ? 'Se connecter'
+                            : 'S\'inscrire',
+                              style: TextStyle(fontSize: wi * 0.05),
+                            )),
+                      ),
 
-                                if (result == null) {
-                                  setState(() {
-                                    loading = false;
-                                    error = 'Erreur dand l\'inscription';
-                                  });
-                                }
-                              }
+                      SizedBox(height: 10,),
+
+                      showSignIn 
+                      ? SizedBox(
+                        width: wi * 1,
+                        height: he * 0.05,
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        brown.withOpacity(0.1)),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                ))),
+                            onPressed: () async {
+                              
                             },
                             child: Text(
-                              'S\'inscrire',
+                              'Se connecter en Anonyme',
                               style: TextStyle(fontSize: wi * 0.05),
                             )),
                       )
+                      : Container()
                     ],
                   )),
                 ],
               )),
-          )
+          ),
+      )
     );
   }
 }

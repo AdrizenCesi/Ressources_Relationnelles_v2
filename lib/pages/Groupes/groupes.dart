@@ -12,18 +12,8 @@ class _GroupesState extends State<Groupes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body : Container(
-        decoration: BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              turquoise,
-              brownDark,
-            ],
-          )),
-          child: Center(child: Text('Groupes'),),
-      )
+      backgroundColor: brownLight,
+      body : Center(child: Text('Groupes'),),
     );
   }
 }

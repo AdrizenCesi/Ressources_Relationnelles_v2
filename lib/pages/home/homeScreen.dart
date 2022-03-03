@@ -34,33 +34,33 @@ class _HomeScreenState extends State<HomeScreen> {
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
-        unselectedItemColor: brownLight.withOpacity(0.6),
-        selectedItemColor: brownLight,
+        unselectedItemColor: turquoise.withOpacity(0.6),
+        selectedItemColor: turquoise,
         elevation: 0,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.home),
-            backgroundColor: brownDark,
+            backgroundColor: brownLight,
             label: 'Home',
           ),
 
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.users),
-            backgroundColor: brownDark,
+            backgroundColor: brownLight,
             label: 'Groupes',
           ),
 
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.search),
-            backgroundColor: brownDark,
+            backgroundColor: brownLight,
             label: 'Search',
           ),
 
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.userAlt),
-            backgroundColor: brownDark,
+            backgroundColor: brownLight,
             label: 'Profil',
           ),
           ],),
