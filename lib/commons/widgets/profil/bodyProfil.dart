@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
 
-bodyProfil() {
+bodyProfil(context, double w, double h, double heI) {
   return Column(
     children: [
       Container(
-        height: 200,
-        width: 350,
+        height: h,
+        width: w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: brownDark,
@@ -15,7 +15,7 @@ bodyProfil() {
               color: Colors.black.withOpacity(0.1),
               spreadRadius: 3,
               blurRadius: 7,
-              offset: Offset(1, 1), // changes position of shadow
+              offset: Offset(1, 1),
             ),
           ],
         ),
@@ -43,7 +43,7 @@ bodyProfil() {
                         color: turquoise,
                         borderRadius: BorderRadius.circular(10)),
                   ),
-                  title: Text('Become a UX Designer'),
+                  title: Text('Become a UX Designer', style: TextStyle(fontWeight: FontWeight.bold)),
                   subtitle: Text('Anton JR'),
                   trailing: IconButton(
                       onPressed: () {},
@@ -59,8 +59,13 @@ bodyProfil() {
                     Text('Learn the skills & get the Job...'),
                     Container(
                       width: double.infinity,
-                      height: 50,
-                      child: Image.asset('images/ressources_relationnelles_transparent.png'),
+                      height: heI,
+                      child: Image.asset('images/ressources_relationnelles_transparent.png', fit: BoxFit.cover,),
+                    ),
+                    Container(
+                      height: 1, 
+                      width: double.infinity,
+                      color: turquoise.withOpacity(0.4),
                     )
                     
                   ],

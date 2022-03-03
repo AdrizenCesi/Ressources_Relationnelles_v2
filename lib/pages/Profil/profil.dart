@@ -25,11 +25,14 @@ class _ProfilState extends State<Profil> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    var wi = MediaQuery.of(context).size.width;
+    var he = MediaQuery.of(context).size.height;
    
     var tabColorActive = brown;
     return Scaffold(
       backgroundColor: brownDark,
-      body : Padding(
+      body : SingleChildScrollView(
+        child: Padding(
         padding: EdgeInsets.symmetric(vertical: 100, horizontal: 20), 
         child: Column(
           children: [
@@ -88,9 +91,10 @@ class _ProfilState extends State<Profil> with TickerProviderStateMixin {
 
             tab1 
             ? Text('tab2')
-            : bodyProfil()
+            : bodyProfil(context, wi*0.9, he*0.4, he*0.2)
           ],
-        ),)
+        ),),
+      )
     );
   }
 }
