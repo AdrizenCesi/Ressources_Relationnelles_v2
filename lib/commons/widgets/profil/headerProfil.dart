@@ -13,10 +13,14 @@ headerProfil() {
           Container(
             height: 100,
             width: 100,
-            decoration: BoxDecoration(
-              color: turquoise,
-              borderRadius: BorderRadius.circular(10)
-            ),
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(
+                color: turquoise.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 7,
+                offset: Offset(1, 1), 
+              ),
+            ], color: turquoise, borderRadius: BorderRadius.circular(10)),
           ),
           IconButton(
               onPressed: () {},
