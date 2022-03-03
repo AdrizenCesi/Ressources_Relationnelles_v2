@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
 import 'package:ressources_relationnelles_v1/pages/home/homeScreen.dart';
+import 'package:ressources_relationnelles_v1/services/authentication.dart';
 
 class AuthenticateScreen extends StatefulWidget {
   AuthenticateScreen({Key? key}) : super(key: key);
@@ -10,6 +11,42 @@ class AuthenticateScreen extends StatefulWidget {
 }
 
 class _AuthenticateScreenState extends State<AuthenticateScreen> {
+  final AuthenticationService _auth = AuthenticationService();
+  final _formKey = GlobalKey<FormState>();
+  String error = '';
+  bool loading = false;
+
+  final cName = TextEditingController();
+  final cFirstname = TextEditingController();
+  final cEmail = TextEditingController();
+  final cPassword = TextEditingController();
+
+  bool showSignIn = true;
+  bool obscureText = false;
+
+  @override
+  void dispose(){
+    cName.dispose();
+    cFirstname.dispose();
+    cEmail.dispose();
+    cPassword.dispose();
+    
+    super.dispose();
+  }
+
+  void toggleView() {
+    setState(() {
+      _formKey.currentState?.reset();
+      error='';
+      cName.text = '';
+      cFirstname.text = '';
+      cEmail.text = '';
+      cPassword.text = '';
+      showSignIn = !showSignIn;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var wi = MediaQuery.of(context).size.width;
@@ -50,11 +87,12 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                         height: 20,
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
                             width: wi * 0.4,
                             child: TextFormField(
+                              controller: cName,
                               decoration: textInputDecoration.copyWith(
                                 hintText: 'nom',
                                 hintStyle: TextStyle(color: Colors.white),
@@ -64,6 +102,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                           Container(
                             width: wi * 0.4,
                             child: TextFormField(
+                              controller: cFirstname,
                               decoration: textInputDecoration.copyWith(
                                 hintText: 'prenom',
                                 hintStyle: TextStyle(color: Colors.white),
@@ -77,6 +116,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                       ),
                       Container(
                         child: TextFormField(
+                          controller: cEmail,
                           decoration: textInputDecoration.copyWith(
                             hintText: 'email',
                             hintStyle: TextStyle(color: Colors.white),
@@ -88,6 +128,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                       ),
                       Container(
                         child: TextFormField(
+                          controller: cPassword,
                           decoration: textInputDecoration.copyWith(
                             hintText: 'mot de passe',
                             hintStyle: TextStyle(color: Colors.white),
@@ -110,9 +151,22 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                     RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18.0),
                                 ))),
-                            onPressed: () {
-                              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                            onPressed: () async {
+                              if (_formKey.currentState?.validate() == true) {
+                                var name = cName.value.text;
+                                var firstname = cFirstname.value.text;
+                                var email = cEmail.value.text;
+                                var password = cPassword.value.text;
+
+                                dynamic result = await _auth.register(email, password);
+
+                                if (result == null) {
+                                  setState(() {
+                                    loading = false;
+                                    error = 'Erreur dand l\'inscription';
+                                  });
+                                }
+                              }
                             },
                             child: Text(
                               'S\'inscrire',
