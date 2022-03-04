@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
-import 'package:ressources_relationnelles_v1/pages/components/addGroup/addGroup.dart';
-import 'package:ressources_relationnelles_v1/pages/components/comments/comment.dart';
 
-postCard(context, double w, double h, double heI) {
+postsLikedCard(context, double w, double h, double heI) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
     child: Column(
@@ -49,6 +47,12 @@ postCard(context, double w, double h, double heI) {
                   ),
                   title: Text('Become a UX Designer', style: TextStyle(fontWeight: FontWeight.bold)),
                   subtitle: Text('Anton JR'),
+                  trailing: Column(
+                    children: [
+                      Text('13', style: TextStyle(color:turquoise, fontSize: h*0.02),),
+                      Icon(Icons.favorite, color: turquoise,)
+                    ],
+                  ),
                   
                 ),
 
@@ -77,19 +81,13 @@ postCard(context, double w, double h, double heI) {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         IconButton(
-                            onPressed: () {
-                              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Comment()));
-                            },
+                            onPressed: () {},
                             icon: Icon(
                               Icons.add_comment_outlined,
                               color: turquoise,
                             )),
                         IconButton(
-                            onPressed: () {
-                              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddGroup()));
-                            },
+                            onPressed: () {},
                             icon: Icon(
                               Icons.ios_share_outlined,
                               color: turquoise,

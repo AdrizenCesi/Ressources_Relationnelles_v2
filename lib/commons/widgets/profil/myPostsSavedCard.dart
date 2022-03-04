@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
 
-bodyProfil(context, double w, double h, double heI) {
+myPostsSavedCard(context, double w, double h, double heI) {
   return Padding(
-    padding: EdgeInsets.only(top: 10, bottom: 10),
+    padding: EdgeInsets.only(top: 10, bottom: 10), 
     child: Column(
     children: [
       Container(
         height: h*0.4,
-        width: w*0.9,
+        width: w*1,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: brownDark,
@@ -48,15 +48,10 @@ bodyProfil(context, double w, double h, double heI) {
                   title: Text('Become a UX Designer', style: TextStyle(fontWeight: FontWeight.bold)),
                   subtitle: Text('Anton JR'),
                   trailing: IconButton(
-                      onPressed: () {
-                         showDialog(
-              context: context,
-              builder: (BuildContext context) => _buildPopupDialog(context, w, h),
-            );
-                      },
+                      onPressed: () {},
                       icon: Icon(
-                        Icons.edit,
-                        color: Colors.grey[400],
+                        Icons.bookmark,
+                        color: turquoise,
                       )),
                 ),
 
@@ -106,65 +101,4 @@ bodyProfil(context, double w, double h, double heI) {
       )
     ],
   ),);
-}
-
-
-Widget _buildPopupDialog(BuildContext context, double w, double h) {
-  return new AlertDialog(
-    backgroundColor: brown,
-    title: const Text('Update your post'),
-    content: new Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        TextField(decoration: textInputDecoration.copyWith(labelText: 'Title'),),
-        SizedBox(height: 20,),
-        TextField(decoration: textInputDecoration.copyWith(labelText: 'Content'),),
-      ],
-    ),
-    actions: <Widget>[
-      SizedBox(
-                        width: w * 0.3,
-                        height: h * 0.04,
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        brown.withOpacity(0.1)),
-                                shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                ))),
-                            onPressed: () async {
-                              Navigator.pop(context);
-                            },
-                            child: Text(
-                              'Close',
-                              style: TextStyle(fontSize: w * 0.05),
-                            )),
-                      ),
-      SizedBox(
-                        width: w * 0.3,
-                        height: h * 0.04,
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        brown.withOpacity(0.1)),
-                                shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                ))),
-                            onPressed: () async {
-                              Navigator.pop(context);
-                            },
-                            child: Text(
-                              'Update',
-                              style: TextStyle(fontSize: w * 0.05),
-                            )),
-                      )
-    ],
-  );
 }

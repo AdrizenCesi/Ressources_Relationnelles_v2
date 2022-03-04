@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
+import 'package:ressources_relationnelles_v1/commons/widgets/profil/popmenu/help/help.dart';
+import 'package:ressources_relationnelles_v1/commons/widgets/profil/popmenu/settings/settings.dart';
+import 'package:ressources_relationnelles_v1/pages/Profil/postsSaved.dart';
 
-headerProfil() {
+headerProfil(BuildContext context, menu) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,12 +25,8 @@ headerProfil() {
               ),
             ], color: turquoise, borderRadius: BorderRadius.circular(10)),
           ),
-          IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.settings,
-                color: Colors.grey[600],
-              ))
+          menu
+          
         ],
       ),
       Text(
@@ -79,6 +78,7 @@ headerProfil() {
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
             children: [
@@ -99,9 +99,20 @@ headerProfil() {
               Text(
                 '26',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              )
+              ),
             ],
-          )
+          ),
+          Text('|'),
+          Column(
+            children: [
+              Text('Posts Saved', style: TextStyle(color: Colors.grey[600])),
+              IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => PostsSaved()));
+                }, 
+                icon: Icon(Icons.bookmark))
+            ])
         ],
       )
     ],

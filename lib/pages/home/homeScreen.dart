@@ -42,25 +42,25 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.home),
-            backgroundColor: brownLight,
+            backgroundColor: brown,
             label: 'Home',
           ),
 
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.users),
-            backgroundColor: brownLight,
+            backgroundColor: brown,
             label: 'Groupes',
           ),
 
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.search),
-            backgroundColor: brownLight,
+            backgroundColor: brown,
             label: 'Search',
           ),
 
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.userAlt),
-            backgroundColor: brownLight,
+            backgroundColor: brown,
             label: 'Profil',
           ),
           ],),
