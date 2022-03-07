@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
+import 'package:ressources_relationnelles_v1/pages/Groupes/groupes.dart';
+import 'package:ressources_relationnelles_v1/pages/home/homeScreen.dart';
 
 class AddGroup extends StatefulWidget {
   AddGroup({Key? key}) : super(key: key);
@@ -9,7 +11,10 @@ class AddGroup extends StatefulWidget {
 }
 
 class _AddGroupState extends State<AddGroup> {
-  bool isChecked = false;
+  int _currentStep = 0;
+  StepperType stepperType = StepperType.vertical;
+
+  bool isChecked = true;
   @override
   Widget build(BuildContext context) {
     Color getColor(Set<MaterialState> states) {
@@ -23,16 +28,20 @@ class _AddGroupState extends State<AddGroup> {
       }
       return turquoise;
     }
+
+    var wi = MediaQuery.of(context).size.width;
+    var he = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: brown,
       appBar: AppBar(
         backgroundColor: brownDark,
         elevation: 0,
         leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          }, 
-          icon: Icon(Icons.arrow_back_ios)),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back_ios)),
       ),
       bottomSheet: Container(
         color: brown,
@@ -41,30 +50,90 @@ class _AddGroupState extends State<AddGroup> {
           children: [
             SizedBox(
               child: ElevatedButton(
-                onPressed: () {},
-                child: Text('Add'),
+                onPressed: () {
+                  /*Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()));*/
+                },
+                child: Text('Create'),
               ),
             )
           ],
         ),
       ),
-
-      body : SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
-            Checkbox(
-      checkColor: Colors.white,
-      fillColor: MaterialStateProperty.resolveWith(getColor),
-      value: isChecked,
-      onChanged: (bool? value) {
-        setState(() {
-          isChecked = value!;
-        });
-      },
-    )
+
+            Container(
+              width: wi*0.7,
+              child: TextField(
+                decoration: textInputDecoration.copyWith(hintText: 'Name of Group'),
+              ),
+            ),
+            
+            Column(
+              children: [
+                CheckboxListTile(
+              checkColor: Colors.white,
+              title: Text('Adrien'),
+              value: isChecked,
+              onChanged: (bool? value) {
+                setState(() {
+                  isChecked = value!;
+                });
+              },
+            ),
+
+            CheckboxListTile(
+              checkColor: Colors.white,
+              title: Text('Adrien'),
+              value: isChecked,
+              onChanged: (bool? value) {
+                setState(() {
+                  isChecked = value!;
+                });
+              },
+            ),
+
+            CheckboxListTile(
+              checkColor: Colors.white,
+              title: Text('Antoine'),
+              value: isChecked,
+              onChanged: (bool? value) {
+                setState(() {
+                  isChecked = value!;
+                });
+              },
+            ),
+
+            CheckboxListTile(
+              checkColor: Colors.white,
+              title: Text('Mendy'),
+              value: isChecked,
+              onChanged: (bool? value) {
+                setState(() {
+                  isChecked = value!;
+                });
+              },
+            ),
+
+            CheckboxListTile(
+              checkColor: Colors.white,
+              title: Text('Enzo'),
+              value: isChecked,
+              onChanged: (bool? value) {
+                setState(() {
+                  isChecked = value!;
+                });
+              },
+            ),
+              ],
+            )
+
+
           ],
         ),
-      )
+      ),
     );
   }
 }

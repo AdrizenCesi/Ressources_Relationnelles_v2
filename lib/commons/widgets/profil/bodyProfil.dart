@@ -11,7 +11,7 @@ bodyProfil(context, double w, double h, double heI) {
         width: w*0.9,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: brownDark,
+          color: brown,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),

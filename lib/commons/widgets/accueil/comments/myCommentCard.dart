@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
 
-myComment(double w) {
+myComment(double w, String content) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
     child: Column(
@@ -33,7 +33,7 @@ myComment(double w) {
           color: Colors.transparent,
           elevation: 0,
           child: 
-                  Text('Salut les gars ça va ?', textAlign: TextAlign.center, style: TextStyle(color: Colors.white),)
+                  Text(content, textAlign: TextAlign.center, style: TextStyle(color: Colors.white),)
         ),
       ),
 

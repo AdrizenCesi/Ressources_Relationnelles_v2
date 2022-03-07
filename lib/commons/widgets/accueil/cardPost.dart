@@ -3,7 +3,7 @@ import 'package:ressources_relationnelles_v1/commons/constants.dart';
 import 'package:ressources_relationnelles_v1/pages/components/addGroup/addGroup.dart';
 import 'package:ressources_relationnelles_v1/pages/components/comments/comment.dart';
 
-postCard(context, double w, double h, double heI) {
+postCard(context, double w, double h, double heI, title, author, content, datePost, pageComment) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
     child: Column(
@@ -13,7 +13,7 @@ postCard(context, double w, double h, double heI) {
         width: w*1,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: brownDark,
+          color: brown,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -47,21 +47,21 @@ postCard(context, double w, double h, double heI) {
                         color: turquoise,
                         borderRadius: BorderRadius.circular(10)),
                   ),
-                  title: Text('Become a UX Designer', style: TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('Anton JR'),
+                  title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
+                  subtitle: Text(author),
                   
                 ),
 
 
                 ListBody(
                   children: [
-                    Text('Learn the skills & get the Job...'),
+                    Text(content),
                     Container(
                       width: double.infinity,
                       height: heI*0.2,
                       child: Image.asset('images/ressources_relationnelles_transparent.png', fit: BoxFit.cover,),
                     ),
-                    Text('publish at 12/03/2022', style: TextStyle(color: Colors.grey[500]),),
+                    Text(datePost, style: TextStyle(color: Colors.grey[500]),),
                     SizedBox(height: 5,),
                     Container(
                       height: 1, 
@@ -79,7 +79,7 @@ postCard(context, double w, double h, double heI) {
                         IconButton(
                             onPressed: () {
                               Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Comment()));
+                      MaterialPageRoute(builder: (context) => pageComment));
                             },
                             icon: Icon(
                               Icons.add_comment_outlined,

@@ -5,15 +5,57 @@ import 'package:ressources_relationnelles_v1/pages/Accueil/accueil.dart';
 import 'package:ressources_relationnelles_v1/pages/Groupes/groupes.dart';
 import 'package:ressources_relationnelles_v1/pages/Profil/profil.dart';
 import 'package:ressources_relationnelles_v1/pages/Search/search.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key}) : super(key: key);
+  final String? uId;
+  HomeScreen({Key? key, required this.uId}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  var userData = {};
+  bool isLoading = true;
+  
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    setState(() {
+      var user = FirebaseAuth.instance.authStateChanges();
+
+      isLoading = true;
+    });
+    try {
+      var userSnap = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.uId)
+          .get();
+
+      userData = userSnap.data()!;
+      setState(() {});
+    } catch (e) {
+      showSnackBar(BuildContext context, String text) {
+        return ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(text),
+          ),
+        );
+      }
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -22,10 +64,10 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
     List<Widget> _widgetOptions = <Widget>[
-  Accueil(),
+  Accueil(uId: FirebaseAuth.instance.currentUser!.uid),
   Groupes(),
   Search(),
-  Profil()
+  Profil(uId: FirebaseAuth.instance.currentUser!.uid)
   ];
 
   @override
@@ -42,25 +84,25 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.home),
-            backgroundColor: brown,
+            backgroundColor: brownLight,
             label: 'Home',
           ),
 
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.users),
-            backgroundColor: brown,
+            backgroundColor: brownLight,
             label: 'Groupes',
           ),
 
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.search),
-            backgroundColor: brown,
+            backgroundColor: brownLight,
             label: 'Search',
           ),
 
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.userAlt),
-            backgroundColor: brown,
+            backgroundColor: brownLight,
             label: 'Profil',
           ),
           ],),

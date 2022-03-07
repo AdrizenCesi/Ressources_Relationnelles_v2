@@ -22,14 +22,41 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+     return StreamProvider<AppUser?>.value(
+      value: AuthenticationService().user,
+      initialData: null,
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
         theme: ThemeData(
-          primaryColor: Colors.blue,
-          fontFamily: GoogleFonts.poppins().fontFamily,
+          primarySwatch: Colors.blue,
         ),
-        home: Wrapper(),
+      ),
     );
   }
-  
+}
+
+class RouteGenerator {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case '/' :
+        return MaterialPageRoute(builder: (context) => Wrapper());
+      
+      default:
+        return pageNotFound();
+    }
+  }
+
+  static MaterialPageRoute pageNotFound() {
+    return MaterialPageRoute(
+        builder: (context) =>
+            Scaffold(
+                appBar: AppBar(title: Text("Error"), centerTitle: true),
+                body: Center(
+                  child: Text("Page not found"),
+                )
+            )
+    );
+  }
 }

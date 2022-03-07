@@ -16,7 +16,7 @@ class _SearchState extends State<Search> {
     var wi = MediaQuery.of(context).size.width;
     var he = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: brown,
+      backgroundColor: brownLight,
       appBar: AppBar(
         backgroundColor: brown,
         elevation: 0,

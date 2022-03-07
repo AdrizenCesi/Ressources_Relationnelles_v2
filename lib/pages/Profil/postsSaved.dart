@@ -15,7 +15,7 @@ class PostsSavedState extends State<PostsSaved> {
     var wi = MediaQuery.of(context).size.width;
     var he = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: brown,
+      backgroundColor: brownLight,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,

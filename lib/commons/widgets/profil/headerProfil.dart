@@ -3,8 +3,9 @@ import 'package:ressources_relationnelles_v1/commons/constants.dart';
 import 'package:ressources_relationnelles_v1/commons/widgets/profil/popmenu/help/help.dart';
 import 'package:ressources_relationnelles_v1/commons/widgets/profil/popmenu/settings/settings.dart';
 import 'package:ressources_relationnelles_v1/pages/Profil/postsSaved.dart';
+import 'package:ressources_relationnelles_v1/pages/components/follows/follows.dart';
 
-headerProfil(BuildContext context, menu) {
+headerProfil(BuildContext context, menu, name, firstname, bio) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,13 +30,24 @@ headerProfil(BuildContext context, menu) {
           
         ],
       ),
-      Text(
-        'Anton JR.',
+
+      // NAME AND FIRSTNAME
+      Row(
+        children: [
+          Text(
+        name,
         style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
       ),
+      SizedBox(width: 10,),
       Text(
-        'Creative director at @ui8.net \n A designer that keens simplicity and usability ',
-        style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.bold),
+        firstname,
+        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+      ),
+        ],
+      ),
+      Text(
+        bio,
+        style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.bold, fontSize: 18),
       ),
       ButtonBar(
         alignment: MainAxisAlignment.spaceEvenly,
@@ -96,10 +108,17 @@ headerProfil(BuildContext context, menu) {
           Column(
             children: [
               Text('Followers', style: TextStyle(color: Colors.grey[600])),
-              Text(
+              GestureDetector(
+                child:Text(
                 '26',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
+              onTap: () {
+                Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MyTabbedPage()));
+              },
+              )
+              
             ],
           ),
           Text('|'),

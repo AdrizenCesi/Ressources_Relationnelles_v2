@@ -1,229 +1,275 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
-import 'package:ressources_relationnelles_v1/pages/home/homeScreen.dart';
 import 'package:ressources_relationnelles_v1/services/authentication.dart';
 
 class AuthenticateScreen extends StatefulWidget {
-  AuthenticateScreen({Key? key}) : super(key: key);
-
   @override
-  State<AuthenticateScreen> createState() => _AuthenticateScreenState();
+  _AuthenticateScreenState createState() => _AuthenticateScreenState();
 }
 
 class _AuthenticateScreenState extends State<AuthenticateScreen> {
+  final AuthenticationService _auth = AuthenticationService();
   final _formKey = GlobalKey<FormState>();
   String error = '';
   bool loading = false;
 
-  final cName = TextEditingController();
-  final cFirstname = TextEditingController();
-  final cEmail = TextEditingController();
-  final cPassword = TextEditingController();
-
+  final emailController = TextEditingController();
+  final nameController = TextEditingController();
+  final passwordController = TextEditingController();
+  final firstnameController = TextEditingController();
+  final bioController = TextEditingController();
   bool showSignIn = true;
-  bool obscureText = false;
 
   @override
-  void dispose(){
-    cName.dispose();
-    cFirstname.dispose();
-    cEmail.dispose();
-    cPassword.dispose();
-    
+  void dispose() {
+    nameController.dispose();
+    firstnameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    bioController.dispose();
     super.dispose();
   }
 
   void toggleView() {
     setState(() {
       _formKey.currentState?.reset();
-      error='';
-      cName.text = '';
-      cFirstname.text = '';
-      cEmail.text = '';
-      cPassword.text = '';
+      error = '';
+      emailController.text = '';
+      nameController.text = '';
+      firstnameController.text = '';
+      passwordController.text = '';
+      bioController.text = '';
       showSignIn = !showSignIn;
     });
   }
 
+  Role _site = Role.lecteur;
 
   @override
   Widget build(BuildContext context) {
     var wi = MediaQuery.of(context).size.width;
     var he = MediaQuery.of(context).size.height;
-    return Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              turquoise,
-              brownDark,
-            ],
-          )),
-        child: Scaffold(
-      backgroundColor: Colors.transparent,
-      body:  SingleChildScrollView(
-        child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    return Scaffold(
+        backgroundColor: brown,
+        body: Container(
+            child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          child: Center(
+            child:
+                // FORM REGISTER OR LOGIN
+                Form(
+              key: _formKey,
               child: Column(
                 children: [
-                  SizedBox(height: he*0.2,),
-
                   Text(
-                    showSignIn
-                    ? 'Se connecter'
-                    : 'S\'inscrire',
-                    style: new TextStyle(
-                        fontSize: 30.0,
+                    showSignIn ? 'Se connecter' : 'S\'inscrire',
+                    style: TextStyle(
+                        fontSize: wi * 0.1,
                         fontWeight: FontWeight.bold,
-                        foreground: Paint()..shader = linearGradient),
+                        color: Colors.white),
                   ),
 
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 30,
+                  ),
 
-                  Form(
-                      child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      showSignIn
-                      ? Container()
-                      : CircleAvatar(
-                        radius: wi * 0.17,
-                        backgroundColor: brown.withOpacity(0.3),
-                        child: Icon(
-                          Icons.add_a_photo_outlined,
-                          color: Colors.white.withOpacity(0.5),
-                          size: wi * 0.15,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-
-                      showSignIn
-                      ? Container()
-                      : Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            width: wi * 0.4,
-                            child: TextFormField(
-                              controller: cName,
-                              decoration: textInputDecoration.copyWith(
-                                hintText: 'nom',
-                                hintStyle: TextStyle(color: Colors.white),
-                              ),
-                            ),
+                  !showSignIn
+                      ? GestureDetector(
+                          child: CircleAvatar(
+                          backgroundColor: brownDark.withOpacity(0.3),
+                          radius: wi * 0.2,
+                          child: Icon(
+                            Icons.add_a_photo_outlined,
+                            size: wi * 0.2,
+                            color: brownLight,
                           ),
-                          Container(
-                            width: wi * 0.4,
-                            child: TextFormField(
-                              controller: cFirstname,
-                              decoration: textInputDecoration.copyWith(
-                                hintText: 'prenom',
-                                hintStyle: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        child: TextFormField(
-                          controller: cEmail,
-                          decoration: textInputDecoration.copyWith(
-                            hintText: 'email',
-                            hintStyle: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        child: TextFormField(
-                          controller: cPassword,
-                          decoration: textInputDecoration.copyWith(
-                            hintText: 'mot de passe',
-                            hintStyle: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                        ))
+                      : Container(),
 
-                      GestureDetector(
-                        onTap: () {toggleView();},
-                        child: Text(
-                          showSignIn
-                          ? 'Créer un compte'
-                          : 'Connectez-vous'
-                        ),
-                      ),
-
-
-                      
-                      SizedBox(
-                        width: wi * 1,
-                        height: he * 0.05,
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        brown.withOpacity(0.1)),
-                                shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                ))),
-                            onPressed: () async {
-
-                              Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => HomeScreen()));
-                              
-                            },
-                            child: Text(showSignIn
-                            ? 'Se connecter'
-                            : 'S\'inscrire',
-                              style: TextStyle(fontSize: wi * 0.05),
-                            )),
-                      ),
-
-                      SizedBox(height: 10,),
-
-                      showSignIn 
+                  !showSignIn
                       ? SizedBox(
-                        width: wi * 1,
-                        height: he * 0.05,
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        brown.withOpacity(0.1)),
-                                shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                ))),
-                            onPressed: () async {
-                              
+                          height: 10,
+                        )
+                      : Container(),
+
+                  !showSignIn
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // NAME
+                            Container(
+                              width: wi * 0.4,
+                              child: TextFormField(
+                                controller: nameController,
+                                decoration: textInputDecoration.copyWith(
+                                    labelText: 'Nom',
+                                    labelStyle: TextStyle(color: Colors.white)),
+                                validator: (value) =>
+                                    value == null || value.isEmpty
+                                        ? "Enter a name"
+                                        : null,
+                              ),
+                            ),
+
+                            //FIRSTNAME
+                            Container(
+                              width: wi * 0.4,
+                              child: TextFormField(
+                                controller: firstnameController,
+                                decoration: textInputDecoration.copyWith(
+                                    labelText: 'Prénom',
+                                    labelStyle: TextStyle(color: Colors.white)),
+                                validator: (value) =>
+                                    value == null || value.isEmpty
+                                        ? "Enter a name"
+                                        : null,
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(),
+
+                  !showSignIn ? SizedBox(height: 10.0) : Container(),
+
+                  //EMAIL
+                  TextFormField(
+                    controller: emailController,
+                    decoration: textInputDecoration.copyWith(
+                        labelText: 'email',
+                        labelStyle: TextStyle(color: Colors.white)),
+                    validator: (value) => value == null || value.isEmpty
+                        ? "Enter an email"
+                        : null,
+                  ),
+                  SizedBox(height: 10.0),
+
+                  //PASSWORD
+                  TextFormField(
+                    controller: passwordController,
+                    decoration: textInputDecoration.copyWith(
+                        labelText: 'password',
+                        labelStyle: TextStyle(color: Colors.white)),
+                    obscureText: true,
+                    validator: (value) => value != null && value.length < 6
+                        ? "Enter a password with at least 6 characters"
+                        : null,
+                  ),
+
+                  //ROLE
+                  !showSignIn
+                      ? ListTile(
+                          title: const Text('Lecteur',
+                              style: TextStyle(color: Colors.white)),
+                          leading: Radio(
+                            value: Role.lecteur,
+                            groupValue: _site,
+                            onChanged: (Role? value) {
+                              setState(() {
+                                _site = value!;
+                              });
                             },
-                            child: Text(
-                              'Se connecter en Anonyme',
-                              style: TextStyle(fontSize: wi * 0.05),
-                            )),
-                      )
-                      : Container()
-                    ],
-                  )),
+                          ),
+                        )
+                      : Container(),
+                  !showSignIn
+                      ? ListTile(
+                          title: const Text(
+                            'Rédacteur',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          leading: Radio(
+                            value: Role.redacteur,
+                            groupValue: _site,
+                            onChanged: (Role? value) {
+                              setState(() {
+                                _site = value!;
+                              });
+                            },
+                          ),
+                        )
+                      : Container(),
+
+                  //BIOGRAPHIE
+
+                  !showSignIn
+                      ? TextFormField(
+                        controller: bioController,
+                          maxLines: 3,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(100)
+                          ],
+                          decoration: textInputDecoration.copyWith(
+                              labelText: 'Biographie',
+                              labelStyle: TextStyle(color: Colors.white)),
+                        )
+                      : Container(),
+
+                  SizedBox(height: 10),
+
+                  GestureDetector(
+                    onTap: toggleView,
+                    child: Text(showSignIn
+                        ? 'Créer un compte'
+                        : 'Déjà un compte ? Connectez-vous !', style: TextStyle(color: Colors.grey)),
+                  ),
+
+                  SizedBox(height: 20.0),
+
+                  //BUTTON REGISTER OR LOGIN
+
+                  SizedBox(
+                    width: wi * 0.6,
+                    height: he * 0.05,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shadowColor: Colors.white,
+                        textStyle: TextStyle(fontSize: wi*0.05, fontWeight: FontWeight.bold),
+                        primary: brownDark,
+                        elevation: 6,
+                        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
+                      ),
+                      child: Text(
+                        showSignIn ? "Se connecter" : "S\'inscrire",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () async {
+                        if (_formKey.currentState?.validate() == true) {
+                          setState(() => loading = true);
+                          var password = passwordController.value.text;
+                          var email = emailController.value.text;
+                          var name = nameController.value.text;
+                          var firstname = firstnameController.value.text;
+                          var role = _site.toString();
+                          var bio = bioController.value.text;
+
+                          dynamic result = showSignIn
+                              ? await _auth.signInWithEmailAndPassword(
+                                  email, password)
+                              : await _auth.registerWithEmailAndPassword(
+                                  name, firstname, email, password, role, bio);
+                          if (result == null) {
+                            setState(() {
+                              loading = false;
+                              error = 'Please supply a valid email';
+                            });
+                          }
+                        }
+                      },
+                    ),
+                  ),
+
+                  SizedBox(height: 10.0),
+                  Text(
+                    error,
+                    style: TextStyle(color: Colors.red, fontSize: 15.0),
+                  )
                 ],
-              )),
+              ),
+            ),
           ),
-      )
-    );
+        )));
   }
 }
+
+enum Role { lecteur, redacteur }

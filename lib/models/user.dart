@@ -1,38 +1,36 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class MyUser {
-  String uid='';
-  String firstname='';
-  String lastname='';
-  String imageUrl='';
-  String letters=''; // initiales
+class AppUser {
+  final String uid;
 
-  MyUser(DataSnapshot snapshot) {
-    uid = snapshot.key!;
+  AppUser(this.uid);
+}
 
+class AppUserData {
+  final String uid;
+  final String name;
+  final String firstname;
+  final String email;
+  final String role;
+  final String bio;
 
-    Map<String, String> map = snapshot.value as Map<String, String>;
-    firstname = map['firstname']!;
-    lastname = map['lastname']!;
-    imageUrl = map['imageUrl']!;
+  const AppUserData(
+      {required this.uid,
+      required this.name,
+      required this.email,
+      required this.firstname,
+      required this.role,
+      required this.bio,
+      });
 
-    if (firstname.isNotEmpty) {
-      letters = firstname[0];
-    }
-
-    if (lastname.isNotEmpty) {
-      letters += lastname[0];
-    }
+  factory AppUserData.fromDocument(DocumentSnapshot doc) {
+    return AppUserData(
+        uid: doc['token'],
+        email: doc['email'],
+        name: doc['name'],
+        firstname: doc['firstname'],
+        role: doc['role'],
+        bio: doc['bio']
+        );
   }
-
-  Map<String, String?> toMap() {
-    return {
-      "uid": "uid",
-      "firstname": firstname,
-      "lastname": lastname,
-      "letters": letters,
-      "imageUrl": imageUrl,
-    };
-  }
-
 }
