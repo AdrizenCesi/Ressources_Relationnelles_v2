@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
 
-yourComment(double w, String content) {
+yourComment(double w, String content, String dateCreation) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
     child: Column(
@@ -9,7 +9,7 @@ yourComment(double w, String content) {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Container(
                 height: w*0.12,
@@ -45,15 +45,22 @@ yourComment(double w, String content) {
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),
-                bottomLeft: Radius.circular(10)
+                bottomRight: Radius.circular(10)
               )
             ),
-        child: Card(
+        child: Column(
+          children: [
+            Card(
           color: Colors.transparent,
           elevation: 0,
           child: 
-                  Text(content, textAlign: TextAlign.center, style: TextStyle(color: Colors.white),)
+                  Text(content, textAlign: TextAlign.start, style: TextStyle(color: Colors.white, fontSize: w*0.045),)
         ),
+        SizedBox(height: 10,),
+        Text(dateCreation, style: TextStyle(color: brownLight),)
+          ],
+        )
+        
       ),
             ],
           )

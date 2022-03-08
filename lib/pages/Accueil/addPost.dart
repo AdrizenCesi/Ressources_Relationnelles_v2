@@ -5,6 +5,8 @@ import 'dart:io';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
 import 'package:ressources_relationnelles_v1/pages/home/homeScreen.dart';
 import 'package:ressources_relationnelles_v1/services/authentication.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:ressources_relationnelles_v1/services/storage.dart';
 
 class AddPostPage extends StatefulWidget {
   AddPostPage({Key? key}) : super(key: key);
@@ -103,6 +105,10 @@ class _AddPostPageState extends State<AddPostPage> {
     getData();
   }
 
+  var _path;
+var _fileName;
+final Storage storage = Storage();
+
   @override
   Widget build(BuildContext context) {
     var wi = MediaQuery.of(context).size.width;
@@ -141,6 +147,46 @@ class _AddPostPageState extends State<AddPostPage> {
                   txtEditingCont('Contenu', 10),
                 ],
               ),
+
+              SizedBox(
+                height: 20,
+              ),
+
+              //IMAGE
+
+              _path == null 
+             ? GestureDetector(
+                onTap: () async {
+                  final results = await FilePicker.platform.pickFiles(
+                    allowMultiple: false,
+                    type: FileType.image,
+                  );
+
+                  if (results == null) {
+                    return null;
+                  }
+
+                  final path = results.files.single.path!;
+                  _path = path;
+                  final fileName = results.files.single.name;
+                  _fileName = fileName;
+                  setState(() {});
+                  print(_path);
+                },
+                child: Container(
+                  width: wi * 0.2,
+                  height: wi * 0.18,
+                  color: brownDark,
+                  child: Icon(Icons.add_a_photo_outlined, size: wi*0.1, color: Colors.white.withOpacity(0.5),),
+                ),
+              )
+              : Container(
+                width: wi*0.9,
+                height: wi*0.4,
+                color: turquoise,
+                child: Image.file(File(_path), fit: BoxFit.cover,),
+              ),
+
               Container(
                 margin: const EdgeInsets.only(
                   top: 30,
@@ -173,7 +219,9 @@ class _AddPostPageState extends State<AddPostPage> {
                 ),
               ),
 
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
 
               //BUTTON POST
               SizedBox(
@@ -191,7 +239,8 @@ class _AddPostPageState extends State<AddPostPage> {
                         'title': myControllerTitle.text,
                         'tags': getTags(),
                         'idLikeUsers': [],
-                        'idPost': DateTime.now().toString() + myUserId
+                        'idPost': DateTime.now().toString() + myUserId,
+                        'imgPost': await storage.uploadFile(_path, _fileName),
                       };
                       var collection =
                           FirebaseFirestore.instance.collection('posts');

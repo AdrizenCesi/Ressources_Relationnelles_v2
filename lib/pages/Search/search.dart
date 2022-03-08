@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
 import 'package:ressources_relationnelles_v1/commons/widgets/refresh.dart';
 import 'package:ressources_relationnelles_v1/commons/widgets/search/postsLikedCard.dart';
+import 'package:ressources_relationnelles_v1/services/search.dart';
 
 class Search extends StatefulWidget {
   Search({Key? key}) : super(key: key);
@@ -20,10 +21,16 @@ class _SearchState extends State<Search> {
       appBar: AppBar(
         backgroundColor: brown,
         elevation: 0,
-        leading: Icon(Icons.search),
-        title: TextField(
-          decoration: textInputDecoration.copyWith(labelText: 'Tap your search', labelStyle: TextStyle(color: Colors.white)),
-        )
+        title: Text('Ressources Relationnelles'),
+        actions: [
+          IconButton(
+          onPressed: () {
+            showSearch(
+            context: context, 
+            delegate: CustomSearchDelegate());
+          }, 
+          icon: Icon(Icons.search)),
+        ],
       ),
       body : PlaneIndicator(child: SingleChildScrollView(
           child: Column(

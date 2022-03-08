@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
+import 'package:ressources_relationnelles_v1/pages/Groupes/createGroup.dart';
 import 'package:ressources_relationnelles_v1/pages/components/addGroup/addGroup.dart';
 import 'package:ressources_relationnelles_v1/pages/components/comments/comment.dart';
 
-postCard(context, double w, double h, double heI, title, author, content, datePost, pageComment) {
+postCard(context, double w, double h, double heI, title, author, content, datePost, pageComment, String imgPost, String imgProfil, bodyProfil) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
     child: Column(
@@ -29,24 +30,22 @@ postCard(context, double w, double h, double heI, title, author, content, datePo
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-
-
                 ListTile(
-                  leading: Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: turquoise.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 7,
-                            offset: Offset(1, 1),
-                          ),
-                        ],
-                        color: turquoise,
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
+                  leading: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Scaffold(
+                                                  appBar: AppBar(
+                                                    
+                                                  ),
+                                                  body: bodyProfil),
+                                      ));
+                    },
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(imgProfil),
+                    ),),
                   title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
                   subtitle: Text(author),
                   
@@ -59,7 +58,7 @@ postCard(context, double w, double h, double heI, title, author, content, datePo
                     Container(
                       width: double.infinity,
                       height: heI*0.2,
-                      child: Image.asset('images/ressources_relationnelles_transparent.png', fit: BoxFit.cover,),
+                      child: Image.network(imgPost, fit: BoxFit.cover,),
                     ),
                     Text(datePost, style: TextStyle(color: Colors.grey[500]),),
                     SizedBox(height: 5,),
@@ -88,7 +87,7 @@ postCard(context, double w, double h, double heI, title, author, content, datePo
                         IconButton(
                             onPressed: () {
                               Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddGroup()));
+                      MaterialPageRoute(builder: (context) => CreationGroupe()));
                             },
                             icon: Icon(
                               Icons.ios_share_outlined,

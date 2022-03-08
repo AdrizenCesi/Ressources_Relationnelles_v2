@@ -37,7 +37,7 @@ class AuthenticationService {
     }
   }
 
-  Future registerWithEmailAndPassword(String name, String firstname, String email, String password, String role, String bio) async {
+  Future registerWithEmailAndPassword(String name, String firstname, String email, String password, String role, String bio, String imgProfil, bool modo, bool admin, bool ban) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -46,7 +46,7 @@ class AuthenticationService {
         throw Exception("No user found");
       } else {
         await DatabaseService(user.uid)
-            .saveUser(name, firstname, email, role, bio);
+            .saveUser(name, firstname, email, role, bio, imgProfil, modo, admin, ban);
 
         return _userFromFirebaseUser(user);
       }

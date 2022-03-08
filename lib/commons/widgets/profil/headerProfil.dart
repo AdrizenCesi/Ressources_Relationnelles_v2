@@ -4,8 +4,11 @@ import 'package:ressources_relationnelles_v1/commons/widgets/profil/popmenu/help
 import 'package:ressources_relationnelles_v1/commons/widgets/profil/popmenu/settings/settings.dart';
 import 'package:ressources_relationnelles_v1/pages/Profil/postsSaved.dart';
 import 'package:ressources_relationnelles_v1/pages/components/follows/follows.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../../pages/Profil/profil.dart';
 
-headerProfil(BuildContext context, menu, name, firstname, bio) {
+headerProfil(BuildContext context, menu, name, firstname, bio, String imgProfil, wi, nPosts, buttonFollow) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -14,18 +17,9 @@ headerProfil(BuildContext context, menu, name, firstname, bio) {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 100,
-            width: 100,
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                color: turquoise.withOpacity(0.5),
-                spreadRadius: 1,
-                blurRadius: 7,
-                offset: Offset(1, 1), 
-              ),
-            ], color: turquoise, borderRadius: BorderRadius.circular(10)),
-          ),
+          ClipRRect(
+            child: Image.network(imgProfil, fit: BoxFit.cover, height: wi*0.25, width: wi*0.25, ),
+            borderRadius: BorderRadius.circular(10)),
           menu
           
         ],
@@ -69,23 +63,7 @@ headerProfil(BuildContext context, menu, name, firstname, bio) {
                   style: TextStyle(fontSize: 15),
                 )),
           ),
-          SizedBox(
-            width: 160,
-            height: 30,
-            child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(turquoise),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ))),
-                onPressed: () async {},
-                child: Text(
-                  'Follow',
-                  style: TextStyle(fontSize: 15),
-                )),
-          ),
+          buttonFollow
         ],
       ),
       Row(
@@ -99,7 +77,7 @@ headerProfil(BuildContext context, menu, name, firstname, bio) {
                 style: TextStyle(color: Colors.grey[600]),
               ),
               Text(
-                '12',
+                nPosts,
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               )
             ],
@@ -114,8 +92,7 @@ headerProfil(BuildContext context, menu, name, firstname, bio) {
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
               onTap: () {
-                Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MyTabbedPage()));
+
               },
               )
               

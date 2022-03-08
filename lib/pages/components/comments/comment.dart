@@ -70,6 +70,7 @@ class _CommentState extends State<Comment> {
     return Scaffold(
       backgroundColor: brown,
       appBar: AppBar(
+        backgroundColor: brownDark,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -77,7 +78,9 @@ class _CommentState extends State<Comment> {
           icon: Icon(Icons.arrow_back_ios)),
         title : Text(widget.titlePost),
       ),
-      body: Column(
+      body: Padding(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        child: Column(
         children: [
           StreamBuilder<QuerySnapshot>(
             stream: comments,
@@ -101,7 +104,7 @@ class _CommentState extends State<Comment> {
                         itemCount: data.size,
                         itemBuilder: (context, index) {
                           if (widget.idPost == data.docs[index]['idPost']) {
-                            return yourComment(wi, '${data.docs[index]['content']}');
+                            return yourComment(wi, '${data.docs[index]['content']}', '${convertDateTimeDisplay(data.docs[index]['dateCreation'].toDate().toString())}');
                           } else {
                             return Container();
                           }
@@ -112,13 +115,12 @@ class _CommentState extends State<Comment> {
             },
           ),
         ],
-      ),
+      ),),
       bottomSheet:
       Container(
         width: wi*1,
-        height: wi*0.23,
-        padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.all(10),
+        height: wi*0.15,
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         decoration: BoxDecoration(
           color: brownLight,
           borderRadius: BorderRadius.circular(15),
@@ -166,9 +168,7 @@ class _CommentState extends State<Comment> {
   }
 
   txtEditingCont(int max) {
-    return Column(
-      children: [
-        const SizedBox(height: 1),
+    return 
         TextField(
           controller: myControllerTitle,
           decoration: InputDecoration(
@@ -178,8 +178,6 @@ class _CommentState extends State<Comment> {
             ),
           ),
           maxLines: max,
-        ),
-      ],
     );
   }
 }

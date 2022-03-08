@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
 import 'package:ressources_relationnelles_v1/services/authentication.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:ressources_relationnelles_v1/services/storage.dart';
 
 class AuthenticateScreen extends StatefulWidget {
   @override
@@ -46,10 +50,17 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
 
   Role _site = Role.lecteur;
 
+//IMAGE
+  var _path;
+  var _fileName;
+  final Storage storage = Storage();
+
   @override
   Widget build(BuildContext context) {
+    //SIZE OF MOBILE
     var wi = MediaQuery.of(context).size.width;
     var he = MediaQuery.of(context).size.height;
+
     return Scaffold(
         backgroundColor: brown,
         body: Container(
@@ -75,16 +86,37 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                   ),
 
                   !showSignIn
+                      ? _path == null
                       ? GestureDetector(
+                          onTap: () async {
+                            final results = await FilePicker.platform.pickFiles(
+                              allowMultiple: false,
+                              type: FileType.image,
+                            );
+                            if (results == null) {
+                              return null;
+                            }
+
+                            final path = results.files.single.path!;
+                            _path = path;
+                            final fileName = results.files.single.name;
+                            _fileName = fileName;
+                            setState(() {});
+                            print(_path);
+                          },
                           child: CircleAvatar(
-                          backgroundColor: brownDark.withOpacity(0.3),
-                          radius: wi * 0.2,
-                          child: Icon(
-                            Icons.add_a_photo_outlined,
-                            size: wi * 0.2,
-                            color: brownLight,
-                          ),
-                        ))
+                            backgroundColor: brownDark.withOpacity(0.3),
+                            radius: wi * 0.2,
+                            child: Icon(
+                              Icons.add_a_photo_outlined,
+                              size: wi * 0.2,
+                              color: brownLight,
+                            ),
+                          ))
+                          : CircleAvatar(
+                            radius: wi*0.2,
+                            backgroundImage: FileImage(File(_path)),
+                          )
                       : Container(),
 
                   !showSignIn
@@ -194,7 +226,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
 
                   !showSignIn
                       ? TextFormField(
-                        controller: bioController,
+                          controller: bioController,
                           maxLines: 3,
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(100)
@@ -209,9 +241,11 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
 
                   GestureDetector(
                     onTap: toggleView,
-                    child: Text(showSignIn
-                        ? 'Créer un compte'
-                        : 'Déjà un compte ? Connectez-vous !', style: TextStyle(color: Colors.grey)),
+                    child: Text(
+                        showSignIn
+                            ? 'Créer un compte'
+                            : 'Déjà un compte ? Connectez-vous !',
+                        style: TextStyle(color: Colors.grey)),
                   ),
 
                   SizedBox(height: 20.0),
@@ -224,10 +258,13 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         shadowColor: Colors.white,
-                        textStyle: TextStyle(fontSize: wi*0.05, fontWeight: FontWeight.bold),
+                        textStyle: TextStyle(
+                            fontSize: wi * 0.05, fontWeight: FontWeight.bold),
                         primary: brownDark,
                         elevation: 6,
-                        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
                       ),
                       child: Text(
                         showSignIn ? "Se connecter" : "S\'inscrire",
@@ -242,12 +279,26 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                           var firstname = firstnameController.value.text;
                           var role = _site.toString();
                           var bio = bioController.value.text;
-
+                          var imgProfil = showSignIn
+                          ? ''
+                          : await storage.uploadFile(_path, _fileName);
+                          bool modo = false;
+                          bool admin = false;
+                          bool ban = false;
                           dynamic result = showSignIn
                               ? await _auth.signInWithEmailAndPassword(
                                   email, password)
                               : await _auth.registerWithEmailAndPassword(
-                                  name, firstname, email, password, role, bio);
+                                  name,
+                                  firstname,
+                                  email,
+                                  password,
+                                  role,
+                                  bio,
+                                  imgProfil,
+                                  modo, 
+                                  admin, 
+                                  ban);
                           if (result == null) {
                             setState(() {
                               loading = false;

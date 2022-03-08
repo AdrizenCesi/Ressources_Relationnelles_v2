@@ -55,6 +55,7 @@ dev_dependencies:
   firebase_database: ^9.0.8
   custom_refresh_indicator: ^1.0.0
   firebase_messaging: ^11.2.8
+  file_picker: ^4.5.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
