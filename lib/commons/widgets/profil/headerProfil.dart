@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
 import 'package:ressources_relationnelles_v1/commons/widgets/profil/popmenu/help/help.dart';
 import 'package:ressources_relationnelles_v1/commons/widgets/profil/popmenu/settings/settings.dart';
+import 'package:ressources_relationnelles_v1/pages/Profil/friends.dart';
 import 'package:ressources_relationnelles_v1/pages/Profil/postsSaved.dart';
 import 'package:ressources_relationnelles_v1/pages/components/follows/follows.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../pages/Profil/profil.dart';
 
-headerProfil(BuildContext context, menu, name, firstname, bio, String imgProfil, wi, nPosts, buttonFollow) {
+Widget headerProfil(BuildContext context, menu, name, firstname, bio, String imgProfil, wi, nPosts, buttonFollow) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,7 +93,8 @@ headerProfil(BuildContext context, menu, name, firstname, bio, String imgProfil,
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
               onTap: () {
-
+                Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Friends()));
               },
               )
               

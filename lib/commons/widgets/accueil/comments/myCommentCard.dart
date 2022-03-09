@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
 
-myComment(double w, String content) {
+myComment(double w, String content, imgProfil) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
     child: Column(
@@ -39,22 +39,10 @@ myComment(double w, String content) {
 
       SizedBox(width: 10,),
 
-      Container(
-                height: w*0.12,
-                width: w*0.12,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: turquoise,
-                  boxShadow: [
-                    BoxShadow(
-                      color: turquoise,
-                      spreadRadius: 1,
-                        blurRadius: 2,
-                        offset: Offset(1, 1)
-                       )
-                  ]
-                ),
-              ),
+      CircleAvatar(
+        radius: w*0.06,
+        backgroundImage: NetworkImage(imgProfil),
+      )
             ],
           )
         ],

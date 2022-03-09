@@ -56,11 +56,6 @@ class _ChatScreenState extends State<ChatScreen> {
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           child: Column(
             children: [
-              myMessage(wi),
-              yourMessage(wi),
-              yourMessage(wi),
-              myMessage(wi),
-              yourMessage(wi),
 
             ],
           ))

@@ -20,6 +20,7 @@ class Accueil extends StatefulWidget {
 
 class _AccueilState extends State<Accueil> {
   var userData = {};
+  var postData = {};
   int postLen = 0;
   bool isLoading = false;
 
@@ -27,6 +28,37 @@ class _AccueilState extends State<Accueil> {
   void initState() {
     super.initState();
     getData();
+    getPostUser();
+  }
+
+  getPostUser() async {
+    setState(() {
+      var user = FirebaseAuth.instance.authStateChanges();
+
+      isLoading = true;
+    });
+    try {
+      
+      var userId = await FirebaseFirestore.instance
+          .collection('posts')
+          .doc('idUser')
+          .get();
+
+      postData = userId.data()!;
+      
+      setState(() {});
+    } catch (e) {
+      showSnackBar(BuildContext context, String text) {
+        return ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(text),
+          ),
+        );
+      }
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   getData() async {
@@ -42,6 +74,7 @@ class _AccueilState extends State<Accueil> {
           .get();
 
       userData = userSnap.data()!;
+      
       setState(() {});
     } catch (e) {
       showSnackBar(BuildContext context, String text) {
@@ -59,6 +92,10 @@ class _AccueilState extends State<Accueil> {
 
   final Stream<QuerySnapshot> posts =
       FirebaseFirestore.instance.collection('posts').snapshots();
+
+  var collectionLikes = FirebaseFirestore.instance.collection('likes');
+
+  bool isLiked = false;
 
   String dropdownvalue = 'Autre';
   var items = [
@@ -136,10 +173,55 @@ class _AccueilState extends State<Accueil> {
                                       ),
                                       '${data.docs[index]['imgPost']}',
                                       userData['imgProfil'],
-                                      Profil(
-                                                      uId: data.docs[index]
-                                                          ['idUser'])
-                                                );
+                                      Profil(uId: data.docs[index]['idUser']),
+                                      IconButton(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 12),
+                                        onPressed: () {
+                                          if (isLiked == true) {
+                                            var myData = {
+                                              'idPost': data.docs[index]
+                                                  ['idPost'],
+                                              'idUser': currentUserId
+                                            };
+                                            collectionLikes
+                                                .add(myData)
+                                                .then((value) => print('Like'))
+                                                .catchError((error) => print(
+                                                    'Add failed: $error'));
+                                            setState(() {
+                                              isLiked = false;
+                                            });
+                                          } else if (isLiked == false) {
+                                            FirebaseFirestore.instance
+                                                .collection('likes')
+                                                .where('idPost',
+                                                    isEqualTo: data.docs[index]
+                                                        ['idPost'])
+                                                .where('idUser',
+                                                    isEqualTo: currentUserId)
+                                                .get()
+                                                .then((value) {
+                                              value.docs.forEach((element) {
+                                                FirebaseFirestore.instance
+                                                    .collection('likes')
+                                                    .doc(element.id)
+                                                    .delete()
+                                                    .then((value) {
+                                                  print('Dislike');
+                                                });
+                                              });
+                                            });
+                                            setState(() {
+                                              isLiked = true;
+                                            });
+                                          }
+                                        },
+                                        icon: Icon(Icons.favorite,
+                                            color: isLiked
+                                                ? Colors.red
+                                                : Colors.grey),
+                                      ));
                                 })
                           ]));
                     }));

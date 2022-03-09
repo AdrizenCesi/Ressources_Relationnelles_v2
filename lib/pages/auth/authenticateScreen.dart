@@ -62,17 +62,19 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
     var he = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        backgroundColor: brown,
-        body: Container(
+        backgroundColor: brownDark,
+        body: Center(
             child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          child: Center(
-            child:
+          child: 
                 // FORM REGISTER OR LOGIN
                 Form(
               key: _formKey,
               child: Column(
                 children: [
+                  showSignIn
+                  ? Image.asset('images/ressources_relationnelles_transparent.png', width: wi*0.5,)
+                  : Container(),
                   Text(
                     showSignIn ? 'Se connecter' : 'S\'inscrire',
                     style: TextStyle(
@@ -105,7 +107,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                             print(_path);
                           },
                           child: CircleAvatar(
-                            backgroundColor: brownDark.withOpacity(0.3),
+                            backgroundColor: brown.withOpacity(0.7),
                             radius: wi * 0.2,
                             child: Icon(
                               Icons.add_a_photo_outlined,
@@ -139,7 +141,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                     labelStyle: TextStyle(color: Colors.white)),
                                 validator: (value) =>
                                     value == null || value.isEmpty
-                                        ? "Enter a name"
+                                        ? "Entrez votre nom"
                                         : null,
                               ),
                             ),
@@ -154,7 +156,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                     labelStyle: TextStyle(color: Colors.white)),
                                 validator: (value) =>
                                     value == null || value.isEmpty
-                                        ? "Enter a name"
+                                        ? "Entrez votre prénom"
                                         : null,
                               ),
                             ),
@@ -171,7 +173,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                         labelText: 'email',
                         labelStyle: TextStyle(color: Colors.white)),
                     validator: (value) => value == null || value.isEmpty
-                        ? "Enter an email"
+                        ? "Entrez votre adresse email"
                         : null,
                   ),
                   SizedBox(height: 10.0),
@@ -184,7 +186,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                         labelStyle: TextStyle(color: Colors.white)),
                     obscureText: true,
                     validator: (value) => value != null && value.length < 6
-                        ? "Enter a password with at least 6 characters"
+                        ? "Entrez un mot de passe avec minimum 6 caractères"
                         : null,
                   ),
 
@@ -227,7 +229,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                   !showSignIn
                       ? TextFormField(
                           controller: bioController,
-                          maxLines: 3,
+                          maxLines: 1,
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(100)
                           ],
@@ -245,7 +247,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                         showSignIn
                             ? 'Créer un compte'
                             : 'Déjà un compte ? Connectez-vous !',
-                        style: TextStyle(color: Colors.grey)),
+                        style: TextStyle(color: Colors.white, fontSize: wi*0.04, fontWeight: FontWeight.bold)),
                   ),
 
                   SizedBox(height: 20.0),
@@ -257,11 +259,11 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                     height: he * 0.05,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        shadowColor: Colors.white,
+                        shadowColor: Colors.brown,
                         textStyle: TextStyle(
                             fontSize: wi * 0.05, fontWeight: FontWeight.bold),
-                        primary: brownDark,
-                        elevation: 6,
+                        primary: brown,
+                        elevation: 3,
                         shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20))),
@@ -310,16 +312,43 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                     ),
                   ),
 
-                  SizedBox(height: 10.0),
+                  SizedBox(height: 15.0),
+
+                  showSignIn
+                  ? SizedBox(
+                    width: wi * 0.6,
+                    height: he * 0.05,
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        textStyle: TextStyle(
+                            fontSize: wi * 0.04, fontWeight: FontWeight.bold),
+                        primary: brown,
+                        elevation: 0,
+                         side: BorderSide(color: brown, width: 2),
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                      ),
+                      child: Text(
+                        'Se connecter en Anonyme',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () async {
+                        await _auth.signInAnonymously();
+                      },
+                    ),
+                  )
+                  : Container(),
+
                   Text(
                     error,
                     style: TextStyle(color: Colors.red, fontSize: 15.0),
-                  )
+                  ),
                 ],
               ),
             ),
           ),
-        )));
+        ));
   }
 }
 

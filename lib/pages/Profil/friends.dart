@@ -73,38 +73,34 @@ class _Friends extends State<Friends> {
   Widget build(BuildContext context) {
     setState(() {});
     return Scaffold(
+      backgroundColor: brownLight,
       appBar: AppBar(
-        foregroundColor: Colors.black12,
-        backgroundColor: brown,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(30),
-          ),
+        backgroundColor: brownDark,
+        elevation: 0,
+        title: Text(
+            'Mes Amis',
+            style: TextStyle(color: Colors.white),
         ),
-        title: Title(
-          color: Colors.white,
-          child: Text(
-            'Création du nouveau groupe',
-            style: TextStyle(color: Colors.white, fontSize: 19),
-            textAlign: TextAlign.center,
-          ),
-        ),
+        centerTitle: true,
       ),
       body: ListView.builder(
           itemCount: users_friends.length,
           itemBuilder: (context, index) {
             bool cliquee = true;
-            return Container(
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              child: Card(
+              color: brown,
               child: ListTile(
+                leading: CircleAvatar(backgroundImage: NetworkImage(users_friends[index]['imgProfil'])),
                 title: Text(
-                  users_friends[index]['name'],
+                  users_friends[index]['firstname'] + ' ' + users_friends[index]['name'],
                   style: TextStyle(
                       fontSize: 18.5,
-                      fontWeight: FontWeight.bold,
-                      backgroundColor: cliquee ? Colors.green : Colors.amber),
+                      fontWeight: FontWeight.bold,),
                 ),
               ),
-            );
+            ),);
           }),
     );
   }

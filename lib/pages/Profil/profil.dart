@@ -5,6 +5,7 @@ import 'package:ressources_relationnelles_v1/commons/constants.dart';
 import 'package:ressources_relationnelles_v1/commons/widgets/profil/bodyProfil.dart';
 import 'package:ressources_relationnelles_v1/commons/widgets/profil/headerProfil.dart';
 import 'package:ressources_relationnelles_v1/commons/widgets/profil/myFavoritePostsCard.dart';
+import 'package:ressources_relationnelles_v1/commons/widgets/profil/popmenu/anonym.dart';
 import 'package:ressources_relationnelles_v1/commons/widgets/profil/popmenu/help/help.dart';
 import 'package:ressources_relationnelles_v1/commons/widgets/profil/popmenu/settings/settings.dart';
 import 'package:ressources_relationnelles_v1/services/authentication.dart';
@@ -121,8 +122,11 @@ class _ProfilState extends State<Profil> with TickerProviderStateMixin {
         backgroundColor: brownLight,
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 100, horizontal: 20),
-            child: Column(
+            padding: EdgeInsets.symmetric(vertical: 60, horizontal: 20),
+            child: 
+            userData['name'] == null
+            ? anonymProfil(he, wi)
+            : Column(
               children: [
                 headerProfil(
                   context,

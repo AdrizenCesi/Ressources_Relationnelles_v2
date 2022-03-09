@@ -8,19 +8,20 @@ class CreationGroupe extends StatefulWidget {
   _CreationGroupe createState() => _CreationGroupe();
 }
 
-List<dynamic> test = [];
+List<dynamic> user = [];
 List<String> list = [];
-var myControllerNomGroupe = TextEditingController(text: 'Nom du groupe');
+var myControllerNomGroupe = TextEditingController();
 
 class _CreationGroupe extends State<CreationGroupe> {
+  final _formKey = GlobalKey<FormState>();
   var taille = 0;
   bool isLoading = false;
-  final ButtonStyle style =
-      ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
   late List<String> friendship = [];
   var _iconColor = Colors.grey;
   var _iconColorShare = Colors.grey;
   var _iconColorAdd = Colors.grey;
+
+  
 
   @override
   void initState() {
@@ -35,7 +36,7 @@ class _CreationGroupe extends State<CreationGroupe> {
       isLoading = true;
     });
     try {
-      test = [];
+      user = [];
       var amies1 = await FirebaseFirestore.instance
           .collection('friendship')
           .where('idUser2', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
@@ -61,7 +62,7 @@ class _CreationGroupe extends State<CreationGroupe> {
             .collection('users')
             .doc(friendship[i])
             .get();
-        test.add(temp);
+        user.add(temp);
       }
       setState(() {});
     } catch (e) {
@@ -78,53 +79,78 @@ class _CreationGroupe extends State<CreationGroupe> {
       isLoading = false;
     });
   }
+  bool cliquee = true;
+
+  void change() {
+    setState(() {
+      cliquee = !cliquee;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    var wi = MediaQuery.of(context).size.width;
     setState(() {});
     return Scaffold(
       backgroundColor: brown,
         appBar: AppBar(
           backgroundColor: brownDark,
-          title: Text(
-              'Création du nouveau groupe',
-              style: TextStyle(color: Colors.white, fontSize: 19),
-            ),
+          title: Form(
+            key: _formKey,
+          child: TextFormField(
+            controller: myControllerNomGroupe,
+            decoration: textInputDecoration.copyWith(labelText: 'Nom du groupe'),
+            validator: (value) =>
+                                    value == null || value.isEmpty
+                                        ? "Entrez le nom du groupe"
+                                        : null,
+          ),
         ),
-        body: 
-
+        ),
+        body: Padding(
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+          child: 
             //LIST FRIENDS
             ListView.builder(
-            itemCount: test.length,
+            itemCount: user.length,
             itemBuilder: (context, index) {
-              bool cliquee = true;
-              return Container(
-                child: ListTile(
+              
+              return ListTile(
                   onTap: () {
-                    addonlist(test[index].id);
-                    if (cliquee == true)
-                      cliquee = false;
-                    else
-                      cliquee = true;
+                    change();
+                    if (_formKey.currentState?.validate() == true) {
+                      addonlist(user[index].id);
+                    }else{
+                      return null;
+                    }
+                    
                   },
+                  leading: CircleAvatar(
+                    radius: wi*0.07,
+                    backgroundImage: NetworkImage(user[index]['imgProfil'])),
                   title: Text(
-                    test[index]['name'],
+                    user[index]['firstname'] + ' ' + user[index]['name'],
                     style: TextStyle(
-                        fontSize: 18.5,
-                        fontWeight: FontWeight.bold,
-                        backgroundColor: cliquee ? Colors.green : Colors.amber),
+                        fontSize: wi*0.05,
+                        color: cliquee ? Colors.white :Colors.black,
+                        fontWeight: FontWeight.bold),
                   ),
-                ),
               );
-            }),
-        bottomNavigationBar: ElevatedButton(
-          style: style,
+            }),)
+        ,bottomNavigationBar: 
+        
+        SizedBox(
+          width: wi*0.4,
+          child: ElevatedButton(
           onPressed: () {
             ajoutGroupe(list);
             Navigator.pop(context);
+            myControllerNomGroupe.clear();
           },
           child: const Text('Création'),
-        ));
+        ),
+        )
+      );
   }
 }
 
@@ -147,27 +173,4 @@ void addonlist(String id) {
     list.remove(id);
   } else
     list.add(id);
-}
-
-// Textfield avec controller, pour récupérer les champs
-txtEditingCont(String label, int max) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        label,
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-      ),
-      const SizedBox(height: 8),
-      TextField(
-        controller: myControllerNomGroupe,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-        maxLines: max,
-      ),
-    ],
-  );
 }

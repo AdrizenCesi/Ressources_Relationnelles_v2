@@ -103,8 +103,10 @@ class _CommentState extends State<Comment> {
                         shrinkWrap: true,
                         itemCount: data.size,
                         itemBuilder: (context, index) {
-                          if (widget.idPost == data.docs[index]['idPost']) {
-                            return yourComment(wi, '${data.docs[index]['content']}', '${convertDateTimeDisplay(data.docs[index]['dateCreation'].toDate().toString())}');
+                          if (widget.idPost == data.docs[index]['idPost'] ||  data.docs[index]['idUser'] == myUserId) {
+                            return myComment(wi, '${data.docs[index]['content']}', userData['imgProfil']);
+                          } else if (widget.idPost == data.docs[index]['idPost'] ||  data.docs[index]['idUser'] != myUserId)  {
+                            return yourComment(wi, '${data.docs[index]['content']}', '${convertDateTimeDisplay(data.docs[index]['dateCreation'].toDate().toString())}', userData['imgProfil']);
                           } else {
                             return Container();
                           }
