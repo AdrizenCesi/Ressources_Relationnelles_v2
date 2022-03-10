@@ -25,6 +25,7 @@ class Profil extends StatefulWidget {
 
 class _ProfilState extends State<Profil> with TickerProviderStateMixin {
   var userData = {};
+  var postData = {};
   int postLen = 0;
   bool isLoading = false;
   bool isFriends = false;
@@ -125,85 +126,15 @@ class _ProfilState extends State<Profil> with TickerProviderStateMixin {
             padding: EdgeInsets.symmetric(vertical: 60, horizontal: 20),
             child: 
             userData['name'] == null
+
+            //PROFIL ANONYME
             ? anonymProfil(he, wi)
+
+            //PROFIL CONNECTE
             : Column(
               children: [
                 headerProfil(
                   context,
-                  PopupMenuButton(
-                    color: brownLight,
-                    icon: Icon(
-                      Icons.settings,
-                      color: Colors.grey[500],
-                    ),
-                    onSelected: (choice) {
-                      switch (choice) {
-                        case 0:
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Help()));
-                          break;
-                        case 1:
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Help()));
-                          break;
-                        case 2:
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Help()));
-                      }
-                    },
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                          value: 0,
-                          child: Row(children: <Widget>[
-                            Padding(
-                                padding:
-                                    EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 0.0),
-                                child: Icon(
-                                  Icons.settings,
-                                  color: turquoise,
-                                )),
-                            Text('Paramètres')
-                          ])),
-                      PopupMenuItem(
-                          value: 1,
-                          child: Row(children: <Widget>[
-                            Padding(
-                                padding:
-                                    EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 0.0),
-                                child: Icon(
-                                  Icons.help,
-                                  color: turquoise,
-                                )),
-                            Text('Aide')
-                          ])),
-                      PopupMenuItem(
-                          value: 2,
-                          child: Row(children: <Widget>[
-                            Padding(
-                                padding:
-                                    EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 0.0),
-                                child: Icon(
-                                  Icons.edit,
-                                  color: turquoise,
-                                )),
-                            Text('Modifier mon profil')
-                          ])),
-                      PopupMenuItem(
-                          onTap: () async {
-                            await _auth.signOut();
-                          },
-                          child: Row(children: <Widget>[
-                            Padding(
-                                padding:
-                                    EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 0.0),
-                                child: Icon(
-                                  Icons.logout,
-                                  color: turquoise,
-                                )),
-                            Text('Se déconnecter')
-                          ]))
-                    ],
-                  ),
                   userData['name'].toString(),
                   userData['firstname'].toString(),
                   userData['bio'].toString(),
@@ -245,6 +176,8 @@ class _ProfilState extends State<Profil> with TickerProviderStateMixin {
                               )),
                         ),
                 ),
+
+                //TAB CONTROLLER 
                 Container(
                   height: 25,
                   width: double.infinity,
@@ -304,7 +237,10 @@ class _ProfilState extends State<Profil> with TickerProviderStateMixin {
                 SizedBox(
                   height: 20,
                 ),
+
+
                 tab1
+                    //FIRST TAB
                     ? Column(
                         children: [
                           myFavPostsCard(context, wi, he, he),
@@ -313,13 +249,12 @@ class _ProfilState extends State<Profil> with TickerProviderStateMixin {
                           myFavPostsCard(context, wi, he, he)
                         ],
                       )
+                    //SECOND TAB
                     : Column(
-                        children: [
-                          bodyProfil(context, wi, he, he),
-                          bodyProfil(context, wi, he, he),
-                          bodyProfil(context, wi, he, he)
-                        ],
-                      )
+                      children: [
+                        bodyProfil(context, wi, he, he, userData['auteur'].toString(), userData['title'].toString(), userData['content'].toString(), userData['imgPost'].toString()),
+                      ],
+                    )
               ],
             ),
           ),

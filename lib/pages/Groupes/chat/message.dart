@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
 import 'package:ressources_relationnelles_v1/commons/widgets/groupes/chat/myMessage.dart';
 import 'package:ressources_relationnelles_v1/commons/widgets/groupes/chat/yourMessage.dart';
+import 'package:ressources_relationnelles_v1/pages/Groupes/chat/membres.dart';
 
 // ignore: camel_case_types
 class Messages extends StatefulWidget {
@@ -86,6 +87,14 @@ class _MessagesState extends State<Messages> {
           style: TextStyle(color: Colors.white),
           textAlign: TextAlign.center,
         ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                 Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Membres(uId: FirebaseAuth.instance.currentUser!.uid)));
+              },
+              icon: Icon(Icons.group))
+        ],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -119,7 +128,7 @@ class _MessagesState extends State<Messages> {
                           return myMessage(
                               wi,
                               data.docs[index]['content'],
-                              test['imgProfil'],
+                              test['imgProfil'].toString(),
                               convertDateTimeDisplay(data.docs[index]
                                       ['dateCreation']
                                   .toDate()

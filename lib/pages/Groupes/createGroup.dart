@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
+import 'package:ressources_relationnelles_v1/services/storage.dart';
+import 'package:file_picker/file_picker.dart';
 
 class CreationGroupe extends StatefulWidget {
   @override
@@ -11,6 +15,8 @@ class CreationGroupe extends StatefulWidget {
 List<dynamic> user = [];
 List<String> list = [];
 var myControllerNomGroupe = TextEditingController();
+
+
 
 class _CreationGroupe extends State<CreationGroupe> {
   final _formKey = GlobalKey<FormState>();
@@ -79,13 +85,12 @@ class _CreationGroupe extends State<CreationGroupe> {
       isLoading = false;
     });
   }
-  bool cliquee = true;
 
-  void change() {
-    setState(() {
-      cliquee = !cliquee;
-    });
-  }
+  bool value = false;
+
+  var _path;
+var _fileName;
+  final Storage storage = Storage();
 
   @override
   Widget build(BuildContext context) {
@@ -106,20 +111,54 @@ class _CreationGroupe extends State<CreationGroupe> {
                                         : null,
           ),
         ),
+        actions: [
+          _path == null 
+             ? GestureDetector(
+                onTap: () async {
+                  final results = await FilePicker.platform.pickFiles(
+                    allowMultiple: false,
+                    type: FileType.image,
+                  );
+
+                  if (results == null) {
+                    return null;
+                  }
+
+                  final path = results.files.single.path!;
+                  _path = path;
+                  final fileName = results.files.single.name;
+                  _fileName = fileName;
+                  setState(() {});
+                  print(_path);
+                },
+                child: Container(
+                  width: wi * 0.2,
+                  height: wi * 0.18,
+                  color: brownDark,
+                  child: Icon(Icons.add_a_photo_outlined, size: wi*0.1, color: Colors.white.withOpacity(0.5),),
+                ),
+              )
+              : CircleAvatar(
+                radius: wi*0.1,
+                backgroundImage: FileImage(File(_path),),
+              ),
+        ],
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
           child: 
-            //LIST FRIENDS
+
+               //LIST FRIENDS
             ListView.builder(
             itemCount: user.length,
             itemBuilder: (context, index) {
+              bool cliquee = false;
               
               return ListTile(
                   onTap: () {
-                    change();
                     if (_formKey.currentState?.validate() == true) {
                       addonlist(user[index].id);
+                    
                     }else{
                       return null;
                     }
@@ -135,15 +174,21 @@ class _CreationGroupe extends State<CreationGroupe> {
                         color: cliquee ? Colors.white :Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
+                  trailing: Checkbox(
+                    value: value, 
+                    onChanged: (value)=> setState(() {
+                      this.value = value!;
+                    }))
               );
-            }),)
+            })
+           ,)
         ,bottomNavigationBar: 
         
         SizedBox(
           width: wi*0.4,
           child: ElevatedButton(
-          onPressed: () {
-            ajoutGroupe(list);
+          onPressed: () async {
+            ajoutGroupe(list, await storage.uploadFile(_path, _fileName));
             Navigator.pop(context);
             myControllerNomGroupe.clear();
           },
@@ -154,12 +199,13 @@ class _CreationGroupe extends State<CreationGroupe> {
   }
 }
 
-void ajoutGroupe(List<String> list) {
+void ajoutGroupe(List<String> list, uploadImgGroup) {
   list.add(FirebaseAuth.instance.currentUser!.uid);
   var myData = {
     'groupname': myControllerNomGroupe.text,
     'listId': list,
     'dateCreation': DateTime.now(),
+    'imgGroup': uploadImgGroup,
   };
   var collection = FirebaseFirestore.instance.collection('groupes');
   collection

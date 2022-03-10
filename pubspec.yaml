@@ -56,6 +56,13 @@ dev_dependencies:
   custom_refresh_indicator: ^1.0.0
   firebase_messaging: ^11.2.8
   file_picker: ^4.5.0
+  flutter_native_splash: ^2.1.0
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: images/ressources_relationnelles_transparent.png
+  android: true
+  ios: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

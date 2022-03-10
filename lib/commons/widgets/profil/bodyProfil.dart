@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
 
-bodyProfil(context, double w, double h, double heI) {
+bodyProfil(context, double w, double h, double heI, author, title, content, imgPost) {
   return Padding(
     padding: EdgeInsets.only(top: 10, bottom: 10),
     child: Column(
@@ -45,8 +45,8 @@ bodyProfil(context, double w, double h, double heI) {
                         color: turquoise,
                         borderRadius: BorderRadius.circular(10)),
                   ),
-                  title: Text('Become a UX Designer', style: TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('Anton JR'),
+                  title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
+                  subtitle: Text(author),
                   trailing: IconButton(
                       onPressed: () {
                          showDialog(
@@ -63,11 +63,11 @@ bodyProfil(context, double w, double h, double heI) {
 
                 ListBody(
                   children: [
-                    Text('Learn the skills & get the Job...'),
+                    Text(content),
                     Container(
                       width: double.infinity,
                       height: heI*0.2,
-                      child: Image.asset('images/ressources_relationnelles_transparent.png', fit: BoxFit.cover,),
+                      child: Image.network(imgPost, fit: BoxFit.cover,),
                     ),
                     Container(
                       height: 1, 

@@ -68,7 +68,7 @@ class _GroupesState extends State<Groupes> {
                                 );
                               },
                               leading: CircleAvatar(
-                                backgroundColor: turquoise,
+                                backgroundImage: NetworkImage(groupe.docs[index]['imgGroup']),
                                 radius: wi*0.06,
                               ),
                               title: Text(

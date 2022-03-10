@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
+import 'package:ressources_relationnelles_v1/commons/widgets/profil/popmenu/settings/components/personnalInfos.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class Settings extends StatefulWidget {
-  Settings({Key? key}) : super(key: key);
+class Params extends StatefulWidget {
+  Params({Key? key}) : super(key: key);
 
   @override
-  State<Settings> createState() => _SettingsState();
+  State<Params> createState() => _ParamsState();
 }
 
-class _SettingsState extends State<Settings> {
+class _ParamsState extends State<Params> {
   @override
   Widget build(BuildContext context) {
     var wi = MediaQuery.of(context).size.width;
@@ -29,7 +31,10 @@ class _SettingsState extends State<Settings> {
           Card(
             color: brownLight,
             child: ListTile(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => InfosPerso(uId: FirebaseAuth.instance.currentUser!.uid)));
+              },
               leading: Icon(Icons.person),
               title: Text('Informations Personnelles'),
             ),
