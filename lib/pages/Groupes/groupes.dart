@@ -26,7 +26,7 @@ class _GroupesState extends State<Groupes> {
     var wi = MediaQuery.of(context).size.width;
     var he = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: brownLight,
+      backgroundColor: secondaryColor,
       appBar: AppBar(
         leading: Icon(null),
         elevation: 0,
@@ -54,6 +54,7 @@ class _GroupesState extends State<Groupes> {
                     return Container(
                       padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10),
                       child: Card(
+                        color: primaryColor,
                         clipBehavior: Clip.antiAlias,
                         child:
                             ListTile(
@@ -75,6 +76,7 @@ class _GroupesState extends State<Groupes> {
                                 '${groupe.docs[index]['groupname']}',
                                 style: TextStyle(
                                     fontSize: 18.5,
+                                    color: secondaryColor,
                                     fontWeight: FontWeight.bold),
                               ),
                               trailing: Text(

@@ -111,12 +111,13 @@ class _AccueilState extends State<Accueil> {
     var wi = MediaQuery.of(context).size.width;
     var he = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: brownLight,
+      backgroundColor: secondaryColor,
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: Icon(Icons.filter_list),
-          title: Container(
+          title: Image.asset('images/rl.png', width: wi*0.25,),
+          centerTitle: true,
+          /*Container(
             width: wi * 0.7,
             child: DropdownButton(
               isExpanded: true,
@@ -131,7 +132,8 @@ class _AccueilState extends State<Accueil> {
                 });
               },
             ),
-          )),
+          )*/
+          ),
       body: StreamBuilder<QuerySnapshot>(
           stream: posts,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -226,6 +228,7 @@ class _AccueilState extends State<Accueil> {
                           ]));
                     }));
           }),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked ,
       floatingActionButton: (userData['role'] == 'Role.redacteur')
           ? FloatingActionButton(
               backgroundColor: brownDark,

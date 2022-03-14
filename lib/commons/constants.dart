@@ -7,10 +7,14 @@ const brownDark = Color(0xffC9B38F);
 const brown = Color.fromARGB(255, 230, 215, 198);
 const brownLight = Color.fromARGB(255, 241, 236, 222);
 
+const primaryColor = Color(0xff394574);
+const secondaryColor = Color(0xffEBEFFF);
+const accentColor = Color(0xff694A96);
+
 
 var textInputDecoration = InputDecoration(
   contentPadding: EdgeInsets.symmetric(horizontal: 40),
-  fillColor: Colors.transparent,
+  fillColor: primaryColor.withOpacity(0.3),
   filled: true,
   errorBorder: OutlineInputBorder(
       borderSide: BorderSide(color: Colors.red, width: 2.0),

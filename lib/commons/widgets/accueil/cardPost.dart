@@ -15,7 +15,7 @@ postCard(context, double w, double h, double heI, title, author, content,
           width: w * 1,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: brown,
+            color: primaryColor,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.1),
@@ -49,12 +49,12 @@ postCard(context, double w, double h, double heI, title, author, content,
                       ),
                     ),
                     title: Text(title,
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    subtitle: Text(author),
+                        style: TextStyle(fontWeight: FontWeight.bold, color: secondaryColor)),
+                    subtitle: Text(author, style: TextStyle(color: secondaryColor.withOpacity(0.6)),),
                   ),
                   ListBody(
                     children: [
-                      Text(content, style: TextStyle(fontSize: w*0.043),),
+                      Text(content, style: TextStyle(fontSize: w*0.043, color: secondaryColor),),
                       SizedBox(height: 20,),
                       Container(
                         width: double.infinity,
@@ -66,7 +66,7 @@ postCard(context, double w, double h, double heI, title, author, content,
                       ),
                       Text(
                         datePost,
-                        style: TextStyle(color: Colors.grey[500]),
+                        style: TextStyle(color: secondaryColor.withOpacity(0.6)),
                       ),
                       SizedBox(
                         height: 5,
@@ -90,7 +90,7 @@ postCard(context, double w, double h, double heI, title, author, content,
                           },
                           icon: Icon(
                             Icons.add_comment_outlined,
-                            color: turquoise,
+                            color: secondaryColor,
                           )),
                       IconButton(
                           onPressed: () {
@@ -101,13 +101,13 @@ postCard(context, double w, double h, double heI, title, author, content,
                           },
                           icon: Icon(
                             Icons.ios_share_outlined,
-                            color: turquoise,
+                            color: secondaryColor,
                           )),
                       IconButton(
                           onPressed: () {},
                           icon: Icon(
                             Icons.bookmark_border,
-                            color: turquoise,
+                            color: secondaryColor,
                           )),
                       favorite
                     ],

@@ -6,6 +6,7 @@ import 'package:ressources_relationnelles_v1/commons/widgets/profil/bodyProfil.d
 import 'package:ressources_relationnelles_v1/commons/widgets/profil/headerProfil.dart';
 import 'package:ressources_relationnelles_v1/commons/widgets/profil/myFavoritePostsCard.dart';
 import 'package:ressources_relationnelles_v1/commons/widgets/profil/popmenu/anonym.dart';
+import 'package:ressources_relationnelles_v1/commons/widgets/profil/popmenu/dashboard/dashboard.dart';
 import 'package:ressources_relationnelles_v1/commons/widgets/profil/popmenu/help/help.dart';
 import 'package:ressources_relationnelles_v1/commons/widgets/profil/popmenu/settings/settings.dart';
 import 'package:ressources_relationnelles_v1/services/authentication.dart';
@@ -120,7 +121,104 @@ class _ProfilState extends State<Profil> with TickerProviderStateMixin {
 
     var tabColorActive = brown;
     return Scaffold(
-        backgroundColor: brownLight,
+        backgroundColor: secondaryColor,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          actions: [
+            PopupMenuButton(
+                    color: brownLight,
+                    icon: Icon(
+                      Icons.settings,
+                      color: Colors.grey[500],
+                    ),
+                    onSelected: (choice) {
+                      switch (choice) {
+                        case 0:
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Params()));
+                          break;
+                        case 1:
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Dashboard(uId: FirebaseAuth.instance
+                                                      .currentUser!.uid)));
+                          break;
+                        case 2:
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Help()));
+                              break;
+                        case 3:
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Help()));
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                          value: 0,
+                          child: Row(children: <Widget>[
+                            Padding(
+                                padding:
+                                    EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 0.0),
+                                child: Icon(
+                                  Icons.settings,
+                                  color: turquoise,
+                                )),
+                            Text('Paramètres')
+                          ])),
+                      PopupMenuItem(
+                          value: 1,
+                          child: Row(children: <Widget>[
+                            Padding(
+                                padding:
+                                    EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 0.0),
+                                child: Icon(
+                                  Icons.help,
+                                  color: turquoise,
+                                )),
+                            Text('Aide')
+                          ])),
+                        PopupMenuItem(
+                          value: 1,
+                          child: Row(children: <Widget>[
+                            Padding(
+                                padding:
+                                    EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 0.0),
+                                child: Icon(
+                                  Icons.help,
+                                  color: turquoise,
+                                )),
+                            Text('Tableau de bord')
+                          ])),
+                      PopupMenuItem(
+                          value: 2,
+                          child: Row(children: <Widget>[
+                            Padding(
+                                padding:
+                                    EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 0.0),
+                                child: Icon(
+                                  Icons.edit,
+                                  color: turquoise,
+                                )),
+                            Text('Modifier mon profil')
+                          ])),
+                      PopupMenuItem(
+                          onTap: () async {
+                            await _auth.signOut();
+                          },
+                          child: Row(children: <Widget>[
+                            Padding(
+                                padding:
+                                    EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 0.0),
+                                child: Icon(
+                                  Icons.logout,
+                                  color: turquoise,
+                                )),
+                            Text('Se déconnecter')
+                          ]))
+                    ],
+                  ),
+          ],
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 60, horizontal: 20),

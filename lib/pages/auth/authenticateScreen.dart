@@ -62,7 +62,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
     var he = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        backgroundColor: brownDark,
+        backgroundColor: secondaryColor,
         body: Center(
             child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -73,14 +73,14 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
               child: Column(
                 children: [
                   showSignIn
-                  ? Image.asset('images/ressources_relationnelles_transparent.png', width: wi*0.5,)
+                  ? Image.asset('images/rl.png', width: wi*0.5,)
                   : Container(),
                   Text(
                     showSignIn ? 'Se connecter' : 'S\'inscrire',
                     style: TextStyle(
                         fontSize: wi * 0.1,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                        color: primaryColor),
                   ),
 
                   SizedBox(
@@ -107,12 +107,12 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                             print(_path);
                           },
                           child: CircleAvatar(
-                            backgroundColor: brown.withOpacity(0.7),
+                            backgroundColor: primaryColor.withOpacity(0.6),
                             radius: wi * 0.2,
                             child: Icon(
                               Icons.add_a_photo_outlined,
                               size: wi * 0.2,
-                              color: brownLight,
+                              color: secondaryColor,
                             ),
                           ))
                           : CircleAvatar(
@@ -138,7 +138,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                 controller: nameController,
                                 decoration: textInputDecoration.copyWith(
                                     labelText: 'Nom',
-                                    labelStyle: TextStyle(color: Colors.white)),
+                                    labelStyle: TextStyle(color: primaryColor)),
                                 validator: (value) =>
                                     value == null || value.isEmpty
                                         ? "Entrez votre nom"
@@ -153,7 +153,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                 controller: firstnameController,
                                 decoration: textInputDecoration.copyWith(
                                     labelText: 'Prénom',
-                                    labelStyle: TextStyle(color: Colors.white)),
+                                    labelStyle: TextStyle(color: primaryColor)),
                                 validator: (value) =>
                                     value == null || value.isEmpty
                                         ? "Entrez votre prénom"
@@ -170,8 +170,8 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                   TextFormField(
                     controller: emailController,
                     decoration: textInputDecoration.copyWith(
-                        labelText: 'email',
-                        labelStyle: TextStyle(color: Colors.white)),
+                        labelText: 'adresse email',
+                        labelStyle: TextStyle(color: primaryColor)),
                     validator: (value) => value == null || value.isEmpty
                         ? "Entrez votre adresse email"
                         : null,
@@ -182,8 +182,8 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                   TextFormField(
                     controller: passwordController,
                     decoration: textInputDecoration.copyWith(
-                        labelText: 'password',
-                        labelStyle: TextStyle(color: Colors.white)),
+                        labelText: 'mot de passe',
+                        labelStyle: TextStyle(color: primaryColor)),
                     obscureText: true,
                     validator: (value) => value != null && value.length < 6
                         ? "Entrez un mot de passe avec minimum 6 caractères"
@@ -194,7 +194,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                   !showSignIn
                       ? ListTile(
                           title: const Text('Lecteur',
-                              style: TextStyle(color: Colors.white)),
+                              style: TextStyle(color: primaryColor)),
                           leading: Radio(
                             value: Role.lecteur,
                             groupValue: _site,
@@ -210,7 +210,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                       ? ListTile(
                           title: const Text(
                             'Rédacteur',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: primaryColor),
                           ),
                           leading: Radio(
                             value: Role.redacteur,
@@ -235,7 +235,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                           ],
                           decoration: textInputDecoration.copyWith(
                               labelText: 'Biographie',
-                              labelStyle: TextStyle(color: Colors.white)),
+                              labelStyle: TextStyle(color: primaryColor)),
                         )
                       : Container(),
 
@@ -247,7 +247,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                         showSignIn
                             ? 'Créer un compte'
                             : 'Déjà un compte ? Connectez-vous !',
-                        style: TextStyle(color: Colors.white, fontSize: wi*0.04, fontWeight: FontWeight.bold)),
+                        style: TextStyle(color: primaryColor, fontSize: wi*0.04, fontWeight: FontWeight.bold)),
                   ),
 
                   SizedBox(height: 20.0),
@@ -262,8 +262,8 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                         shadowColor: Colors.brown,
                         textStyle: TextStyle(
                             fontSize: wi * 0.05, fontWeight: FontWeight.bold),
-                        primary: brown,
-                        elevation: 3,
+                        primary: accentColor,
+                        elevation: 5,
                         shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20))),
@@ -318,13 +318,12 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                   ? SizedBox(
                     width: wi * 0.6,
                     height: he * 0.05,
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
                         textStyle: TextStyle(
                             fontSize: wi * 0.04, fontWeight: FontWeight.bold),
-                        primary: brown,
-                        elevation: 0,
-                         side: BorderSide(color: brown, width: 2),
+                        primary: accentColor,
+                        elevation: 5,
                         shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20))),
@@ -332,6 +331,33 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                       child: Text(
                         'Se connecter en Anonyme',
                         style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () async {
+                        await _auth.signInAnonymously();
+                      },
+                    ),
+                  )
+                  : Container(),
+
+                  SizedBox(height: 15.0),
+
+                  showSignIn
+                  ? SizedBox(
+                    width: wi * 0.6,
+                    height: he * 0.05,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        textStyle: TextStyle(
+                            fontSize: wi * 0.04, fontWeight: FontWeight.bold),
+                        primary: Colors.white,
+                        elevation: 5,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                      ),
+                      child: Text(
+                        'Se connecter avec Google',
+                        style: TextStyle(color: accentColor),
                       ),
                       onPressed: () async {
                         await _auth.signInAnonymously();

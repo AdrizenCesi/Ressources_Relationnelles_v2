@@ -73,8 +73,46 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: secondaryColor,
       body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: 
+      Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(40)
+        ),
+        child:
+        Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            height: 50,
+            width: 50,
+            child: Icon(Icons.home, color: primaryColor,),
+          ),
+
+          Container(
+            height: 50,
+            width: 50,
+            child: Icon(Icons.group, color: primaryColor,),
+          ),
+
+          Container(
+            height: 50,
+            width: 50,
+            child: Icon(Icons.search, color: primaryColor,)
+          ),
+
+          Container(
+            height: 50,
+            width: 50,
+            child: Icon(Icons.verified_user, color: primaryColor,),
+          ),
+        ],
+      )
+      )
+      
+      /*BottomNavigationBar(
         showSelectedLabels: false,
         unselectedItemColor: turquoise.withOpacity(0.6),
         selectedItemColor: turquoise,
@@ -105,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: brownLight,
             label: 'Profil',
           ),
-          ],),
+          ],),*/
     );
   }
 }
