@@ -69,49 +69,78 @@ class _HomeScreenState extends State<HomeScreen> {
   Search(),
   Profil(uId: FirebaseAuth.instance.currentUser!.uid)
   ];
+  final PageStorageBucket bucket = PageStorageBucket();
+  Widget currentScreen = Accueil(uId: FirebaseAuth.instance.currentUser!.uid);
+  int currentTab = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: secondaryColor,
-      body: _widgetOptions.elementAt(_selectedIndex),
+      body: PageStorage(bucket: bucket, child: currentScreen),
+      //_widgetOptions.elementAt(_selectedIndex),
+      floatingActionButton: FloatingActionButton(onPressed: () {}, child: Icon(Icons.add), backgroundColor: accentColor,),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: 
-      Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(40)
-        ),
-        child:
-        Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Container(
-            height: 50,
-            width: 50,
-            child: Icon(Icons.home, color: primaryColor,),
+      BottomAppBar(
+        elevation: 0,
+        color: Colors.transparent,
+        shape: CircularNotchedRectangle(),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(topRight:Radius.circular(30), topLeft: Radius.circular(30))
           ),
+          height: 50,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                MaterialButton(
+                  onPressed: () {
+                    setState(() {
+                      currentScreen = Accueil(uId: FirebaseAuth.instance.currentUser!.uid);
+                      currentTab = 0;
+                    });
+                  },
+                  child: Icon(Icons.home_outlined),
+                  ),
 
-          Container(
-            height: 50,
-            width: 50,
-            child: Icon(Icons.group, color: primaryColor,),
-          ),
+                  MaterialButton(
+                  onPressed: () {
+                    setState(() {
+                      currentScreen = Groupes();
+                      currentTab = 0;
+                    });
+                  },
+                  child: Icon(Icons.group_outlined)
+                  ),
+                  SizedBox.shrink(),
 
-          Container(
-            height: 50,
-            width: 50,
-            child: Icon(Icons.search, color: primaryColor,)
-          ),
+                  MaterialButton(
+                  onPressed: () {
+                    setState(() {
+                      currentScreen = Search();
+                      currentTab = 0;
+                    });
+                  },
+                  child: Icon(Icons.search),
+                  ),
 
-          Container(
-            height: 50,
-            width: 50,
-            child: Icon(Icons.verified_user, color: primaryColor,),
-          ),
-        ],
+                  MaterialButton(
+                  onPressed: () {
+                    setState(() {
+                      currentScreen = Profil(uId: FirebaseAuth.instance.currentUser!.uid);
+                      currentTab = 0;
+                    });
+                  },
+                  child: Icon(Icons.home_max_outlined),
+                  ),
+              ],
+            ),)
+        )
       )
-      )
-      
       /*BottomNavigationBar(
         showSelectedLabels: false,
         unselectedItemColor: turquoise.withOpacity(0.6),

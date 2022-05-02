@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
+import 'package:ressources_relationnelles_v1/pages/auth/verifyEmail.dart';
 import 'package:ressources_relationnelles_v1/services/authentication.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:ressources_relationnelles_v1/services/storage.dart';
@@ -172,9 +173,16 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                     decoration: textInputDecoration.copyWith(
                         labelText: 'adresse email',
                         labelStyle: TextStyle(color: primaryColor)),
-                    validator: (value) => value == null || value.isEmpty
-                        ? "Entrez votre adresse email"
-                        : null,
+                    validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Renseignez une adresse email !';
+                          }
+                          // Check if the entered email has the right format
+                          if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+                            return 'Renseignez une adresse email valide !';
+                          }
+                          return null;
+                        },
                   ),
                   SizedBox(height: 10.0),
 
@@ -185,9 +193,17 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                         labelText: 'mot de passe',
                         labelStyle: TextStyle(color: primaryColor)),
                     obscureText: true,
-                    validator: (value) => value != null && value.length < 6
-                        ? "Entrez un mot de passe avec minimum 6 caractères"
-                        : null,
+                      validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Renseignez un mot de passe !';
+                          }
+                          // Check if the entered email has the right format
+                          if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)) {
+                            return 'Le mot de passe doit contenir:';
+                          }
+                          // Return null if the entered email is valid
+                          return null;
+                        },
                   ),
 
                   //ROLE
@@ -273,6 +289,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () async {
+
                         if (_formKey.currentState?.validate() == true) {
                           setState(() => loading = true);
                           var password = passwordController.value.text;

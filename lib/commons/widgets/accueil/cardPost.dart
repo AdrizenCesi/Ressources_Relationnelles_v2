@@ -11,7 +11,7 @@ postCard(context, double w, double h, double heI, title, author, content,
     child: Column(
       children: [
         Container(
-          height: h * 0.45,
+          height: h * 0.48,
           width: w * 1,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
@@ -56,9 +56,8 @@ postCard(context, double w, double h, double heI, title, author, content,
                     children: [
                       Text(content, style: TextStyle(fontSize: w*0.043, color: secondaryColor),),
                       SizedBox(height: 20,),
-                      Container(
-                        width: double.infinity,
-                        height: heI * 0.2,
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
                         child: Image.network(
                           imgPost,
                           fit: BoxFit.cover,

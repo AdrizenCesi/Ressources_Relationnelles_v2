@@ -152,7 +152,8 @@ class _AccueilState extends State<Accueil> {
                     itemBuilder: (context, i) {
                       return SingleChildScrollView(
                           physics: ScrollPhysics(),
-                          child: Column(children: <Widget>[
+                          child: Column(
+                            children: <Widget>[
                             ListView.builder(
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
@@ -228,7 +229,7 @@ class _AccueilState extends State<Accueil> {
                           ]));
                     }));
           }),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked ,
+          /*floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: (userData['role'] == 'Role.redacteur')
           ? FloatingActionButton(
               backgroundColor: brownDark,
@@ -243,7 +244,7 @@ class _AccueilState extends State<Accueil> {
               },
               child: Icon(Icons.add),
             )
-          : Container(),
+          : Container(),*/
     );
   }
 }
