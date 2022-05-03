@@ -12,7 +12,7 @@ class CreationGroupe extends StatefulWidget {
   _CreationGroupe createState() => _CreationGroupe();
 }
 
-List<dynamic> user = [];
+List<dynamic> test = [];
 List<String> list = [];
 var myControllerNomGroupe = TextEditingController();
 
@@ -42,7 +42,7 @@ class _CreationGroupe extends State<CreationGroupe> {
       isLoading = true;
     });
     try {
-      user = [];
+      test = [];
       var amies1 = await FirebaseFirestore.instance
           .collection('friendship')
           .where('idUser2', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
@@ -68,7 +68,7 @@ class _CreationGroupe extends State<CreationGroupe> {
             .collection('users')
             .doc(friendship[i])
             .get();
-        user.add(temp);
+        test.add(temp);
       }
       setState(() {});
     } catch (e) {
@@ -97,115 +97,72 @@ var _fileName;
     var wi = MediaQuery.of(context).size.width;
     setState(() {});
     return Scaffold(
-      backgroundColor: brown,
         appBar: AppBar(
-          backgroundColor: brownDark,
-          title: Form(
-            key: _formKey,
-          child: TextFormField(
-            controller: myControllerNomGroupe,
-            decoration: textInputDecoration.copyWith(labelText: 'Nom du groupe'),
-            validator: (value) =>
-                                    value == null || value.isEmpty
-                                        ? "Entrez le nom du groupe"
-                                        : null,
+          foregroundColor: Colors.black12,
+          backgroundColor: primaryColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(30),
+            ),
+          ),
+          title: Title(
+            color: Colors.white,
+            child: Text(
+              'Création du nouveau groupe',
+              style: TextStyle(color: Colors.white, fontSize: 19),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
-        actions: [
-          _path == null 
-             ? GestureDetector(
-                onTap: () async {
-                  final results = await FilePicker.platform.pickFiles(
-                    allowMultiple: false,
-                    type: FileType.image,
-                  );
-
-                  if (results == null) {
-                    return null;
-                  }
-
-                  final path = results.files.single.path!;
-                  _path = path;
-                  final fileName = results.files.single.name;
-                  _fileName = fileName;
-                  setState(() {});
-                  print(_path);
-                },
-                child: Container(
-                  width: wi * 0.2,
-                  height: wi * 0.18,
-                  color: brownDark,
-                  child: Icon(Icons.add_a_photo_outlined, size: wi*0.1, color: Colors.white.withOpacity(0.5),),
-                ),
-              )
-              : CircleAvatar(
-                radius: wi*0.1,
-                backgroundImage: FileImage(File(_path),),
-              ),
-        ],
-        ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-          child: 
-
-               //LIST FRIENDS
-            ListView.builder(
-            itemCount: user.length,
+        body: ListView.builder(
+            itemCount: test.length,
             itemBuilder: (context, index) {
-              bool cliquee = false;
-              
-              return ListTile(
+              bool cliquee = true;
+              return Container(
+                child: ListTile(
                   onTap: () {
-                    if (_formKey.currentState?.validate() == true) {
-                      addonlist(user[index].id);
-                    
-                    }else{
-                      return null;
-                    }
-                    
+                    addonlist(test[index].id);
+                    if (cliquee == true)
+                      cliquee = false;
+                    else
+                      cliquee = true;
                   },
-                  leading: CircleAvatar(
-                    radius: wi*0.07,
-                    backgroundImage: NetworkImage(user[index]['imgProfil'])),
                   title: Text(
-                    user[index]['firstname'] + ' ' + user[index]['name'],
+                    test[index]['name'],
                     style: TextStyle(
-                        fontSize: wi*0.05,
-                        color: cliquee ? Colors.white :Colors.black,
-                        fontWeight: FontWeight.bold),
+                        fontSize: 18.5,
+                        fontWeight: FontWeight.bold,
+                        backgroundColor: cliquee ? Colors.green : Colors.amber),
                   ),
-                  trailing: Checkbox(
-                    value: value, 
-                    onChanged: (value)=> setState(() {
-                      this.value = value!;
-                    }))
+                ),
               );
-            })
-           ,)
-        ,bottomNavigationBar: 
-        
-        SizedBox(
-          width: wi*0.4,
-          child: ElevatedButton(
-          onPressed: () async {
-            ajoutGroupe(list, await storage.uploadFile(_path, _fileName));
+            }),
+        bottomSheet: TextField(
+          controller: myControllerNomGroupe,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+        bottomNavigationBar: ElevatedButton(
+          
+          onPressed: () {
+            ajoutGroupe(list);
             Navigator.pop(context);
-            myControllerNomGroupe.clear();
           },
           child: const Text('Création'),
-        ),
-        )
-      );
+        ));
   }
 }
 
-void ajoutGroupe(List<String> list, uploadImgGroup) {
+void ajoutGroupe(List<String> list) {
   list.add(FirebaseAuth.instance.currentUser!.uid);
   var myData = {
     'groupname': myControllerNomGroupe.text,
     'listId': list,
     'dateCreation': DateTime.now(),
-    'imgGroup': uploadImgGroup,
+    //'imgGroup': uploadImgGroup,
   };
   var collection = FirebaseFirestore.instance.collection('groupes');
   collection

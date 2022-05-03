@@ -65,13 +65,13 @@ class _GroupesState extends State<Groupes> {
                                       builder: (context) => Messages(
                                           idGroupe: groupe.docs[index].id,
                                           nameGroupe: groupe.docs[index]
-                                              ['groupname'])),
+                                              ['groupname']())),
                                 );
                               },
-                              leading: CircleAvatar(
+                              /*leading: CircleAvatar(
                                 backgroundImage: NetworkImage(groupe.docs[index]['imgGroup']),
                                 radius: wi*0.06,
-                              ),
+                              ),*/
                               title: Text(
                                 '${groupe.docs[index]['groupname']}',
                                 style: TextStyle(

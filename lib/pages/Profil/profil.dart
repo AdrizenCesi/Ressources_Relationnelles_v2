@@ -350,7 +350,8 @@ class _ProfilState extends State<Profil> with TickerProviderStateMixin {
                     //SECOND TAB
                     : Column(
                       children: [
-                        bodyProfil(context, wi, he, he, userData['auteur'].toString(), userData['title'].toString(), userData['content'].toString(), userData['imgPost'].toString()),
+                       bodyProfil(context, wi, he, he, userData['auteur'].toString(), userData['title'].toString(), userData['content'].toString(), userData['imgPost'].toString())
+                        
                       ],
                     )
               ],

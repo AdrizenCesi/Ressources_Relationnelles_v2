@@ -7,11 +7,11 @@ import 'package:ressources_relationnelles_v1/pages/components/comments/comment.d
 postCard(context, double w, double h, double heI, title, author, content,
     datePost, pageComment, String imgPost, String imgProfil, bodyProfil, favorite) {
   return Padding(
-    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 8),
     child: Column(
       children: [
         Container(
-          height: h * 0.48,
+          height: h * 0.53,
           width: w * 1,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
@@ -52,17 +52,25 @@ postCard(context, double w, double h, double heI, title, author, content,
                         style: TextStyle(fontWeight: FontWeight.bold, color: secondaryColor)),
                     subtitle: Text(author, style: TextStyle(color: secondaryColor.withOpacity(0.6)),),
                   ),
-                  ListBody(
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: ListBody(
                     children: [
                       Text(content, style: TextStyle(fontSize: w*0.043, color: secondaryColor),),
                       SizedBox(height: 20,),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                     Container(
+                       width: w*0.3,
+                       height: h*0.25,
+                       child: Padding(
+                       padding: EdgeInsets.only(left: 5, right: 5),
+                       child:  ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
                         child: Image.network(
                           imgPost,
                           fit: BoxFit.cover,
                         ),
-                      ),
+                      ),),
+                     ),
                       Text(
                         datePost,
                         style: TextStyle(color: secondaryColor.withOpacity(0.6)),
@@ -76,7 +84,7 @@ postCard(context, double w, double h, double heI, title, author, content,
                         color: turquoise.withOpacity(0.4),
                       ),
                     ],
-                  ),
+                  ),),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
