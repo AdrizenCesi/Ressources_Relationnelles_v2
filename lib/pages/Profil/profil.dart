@@ -298,13 +298,13 @@ class _ProfilState extends State<Profil> with TickerProviderStateMixin {
                           width: 170,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: tab1 ? Colors.white : brownLight),
+                              color: tab1 ? Colors.white : accentColor),
                           child: Text('My Posts',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: tab1
-                                      ? Colors.grey[500]
-                                      : Colors.grey[700])),
+                                      ? accentColor
+                                      : Colors.white)),
                         ),
                       ),
                       GestureDetector(
@@ -319,13 +319,13 @@ class _ProfilState extends State<Profil> with TickerProviderStateMixin {
                           width: 170,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: tab2 ? Colors.white : brownLight),
+                              color: tab2 ? Colors.white : accentColor),
                           child: Text(
                             'My favorites Posts',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color:
-                                    tab2 ? Colors.grey[500] : Colors.grey[700]),
+                                    tab2 ? accentColor : Colors.white),
                           ),
                         ),
                       )
@@ -348,14 +348,14 @@ class _ProfilState extends State<Profil> with TickerProviderStateMixin {
                         ],
                       )
                     //SECOND TAB
-                    : Column(
+                    :  Column(
                       children: [
-                       bodyProfil(context, wi, he, he, userData['auteur'].toString(), userData['title'].toString(), userData['content'].toString(), userData['imgPost'].toString())
+                       bodyProfil(context, wi, he, he, userData['auteur'].toString(), userData['title'].toString(), userData['content'].toString(), userData['imgPost'].toString()) 
                         
                       ],
-                    )
-              ],
-            ),
+                    ) 
+              ]
+            )
           ),
         ));
   }

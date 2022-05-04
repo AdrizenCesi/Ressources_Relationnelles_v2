@@ -68,15 +68,16 @@ class _CommentState extends State<Comment> {
   Widget build(BuildContext context) {
     var wi = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: brown,
+      backgroundColor: secondaryColor,
       appBar: AppBar(
-        backgroundColor: brownDark,
+        backgroundColor: secondaryColor,
         leading: IconButton(
+          color: accentColor,
           onPressed: () {
             Navigator.pop(context);
           },
           icon: Icon(Icons.arrow_back_ios)),
-        title : Text(widget.titlePost),
+        title : Text(widget.titlePost, style: TextStyle(color: accentColor),),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -124,11 +125,11 @@ class _CommentState extends State<Comment> {
         height: wi*0.15,
         padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         decoration: BoxDecoration(
-          color: brownLight,
+          color: primaryColor,
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-              color: brownDark.withOpacity(1),
+              color: Colors.white.withOpacity(1),
               spreadRadius: 0.5,
               blurRadius: 5,
               offset: Offset(0, 1),
@@ -161,7 +162,7 @@ class _CommentState extends State<Comment> {
                 },
                 icon: Icon(
                   Icons.send_sharp,
-                  color: brownDark,
+                  color: Colors.white,
                 ))
           ],
         ),
@@ -174,7 +175,7 @@ class _CommentState extends State<Comment> {
         TextField(
           controller: myControllerTitle,
           decoration: InputDecoration(
-            label: Text('Entrez votre commentaire...'),
+            label: Text('Entrez votre commentaire...', style: TextStyle(color: Colors.white),),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
             ),

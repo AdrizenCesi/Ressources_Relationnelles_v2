@@ -17,13 +17,14 @@ class _SearchState extends State<Search> {
     var wi = MediaQuery.of(context).size.width;
     var he = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: brownLight,
+      backgroundColor: secondaryColor,
       appBar: AppBar(
-        backgroundColor: brown,
+        backgroundColor: secondaryColor,
         elevation: 0,
-        title: Text('Ressources Relationnelles'),
+        title: Text('Ressources Relationnelles', style: TextStyle(color: primaryColor),),
         actions: [
           IconButton(
+            color: primaryColor,
           onPressed: () {
             showSearch(
             context: context, 
@@ -32,7 +33,8 @@ class _SearchState extends State<Search> {
           icon: Icon(Icons.search)),
         ],
       ),
-      body : PlaneIndicator(child: SingleChildScrollView(
+      body : PlaneIndicator(
+         child: SingleChildScrollView(
           child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -16,13 +16,13 @@ myComment(double w, String content, imgProfil) {
             decoration: BoxDecoration(
               boxShadow: [
                     BoxShadow(
-                      color: turquoise,
+                      color: accentColor,
                       spreadRadius: 1,
                         blurRadius: 2,
                         offset: Offset(1, 1)
                        )
                   ],
-              color: turquoise.withOpacity(0.6),
+              color: accentColor.withOpacity(0.6),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),

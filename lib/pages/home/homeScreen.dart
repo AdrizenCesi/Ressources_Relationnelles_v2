@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ressources_relationnelles_v1/commons/constants.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ressources_relationnelles_v1/pages/Accueil/accueil.dart';
+import 'package:ressources_relationnelles_v1/pages/Accueil/addPost.dart';
 import 'package:ressources_relationnelles_v1/pages/Groupes/groupes.dart';
 import 'package:ressources_relationnelles_v1/pages/Profil/profil.dart';
 import 'package:ressources_relationnelles_v1/pages/Search/search.dart';
@@ -79,7 +80,19 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: secondaryColor,
       body: PageStorage(bucket: bucket, child: currentScreen),
       //_widgetOptions.elementAt(_selectedIndex),
-      floatingActionButton: FloatingActionButton(onPressed: () {}, child: Icon(Icons.add), backgroundColor: accentColor,),
+      floatingActionButton: 
+      (userData['role'].toString() == 'Role.redacteur')
+     ? FloatingActionButton(
+        onPressed: () {
+           Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddPostPage(),
+                    ),
+                  );
+        }, 
+        child: Icon(Icons.add), backgroundColor: accentColor,)
+        : Container(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: 
       BottomAppBar(
