@@ -26,12 +26,12 @@ void main() {
   });
 
   test('Invalid Password Test', () {
-    var result = FieldValidator.validatePassword('123');
-    expect(result, 'Password must be more than 8 characters');
+    var result = FieldValidator.validatePassword('12dz3');
+    expect(result, 'Votre mot de passe ne respecte la politique de mot de passe !');
   });
 
   test('Valid Password Test', () {
-    var result = FieldValidator.validatePassword('ajay12345');
+    var result = FieldValidator.validatePassword('Ressources21*');
     expect(result, '');
   });
 

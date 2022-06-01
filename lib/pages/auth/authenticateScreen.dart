@@ -9,6 +9,8 @@ import 'package:ressources_relationnelles_v1/services/authentication.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:ressources_relationnelles_v1/services/storage.dart';
 import 'package:ressources_relationnelles_v1/pages/auth/validator.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 
 class AuthenticateScreen extends StatefulWidget {
   @override
@@ -354,7 +356,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                         style: TextStyle(color: accentColor),
                       ),
                       onPressed: () async {
-                        await _auth.signInAnonymously();
+                        await signInWithGoogle();
                       },
                     ),
                   )

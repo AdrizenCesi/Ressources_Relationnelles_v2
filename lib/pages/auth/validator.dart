@@ -15,8 +15,10 @@ class FieldValidator {
   static String validatePassword(value) {
     if (value.isEmpty) return 'Enter Password';
 
-    if (value.length < 8) {
-      return 'Password must be more than 8 characters';
+    RegExp regexpassword = new RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$');
+
+    if (!regexpassword.hasMatch(value)) {
+      return 'Votre mot de passe ne respecte la politique de mot de passe !';
     }
 
     return '';
