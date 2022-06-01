@@ -21,4 +21,17 @@ class FieldValidator {
 
     return '';
   }
+
+  static String validateName(value) {
+    if (value.isEmpty) return 'Entrez votre nom';
+
+    return '';
+  }
+
+  static String validateFirstname(value) {
+    if (value.isEmpty) return 'Entrez votre prenom';
+
+    return '';
+  }
+
 }

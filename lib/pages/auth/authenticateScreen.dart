@@ -142,10 +142,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                 decoration: textInputDecoration.copyWith(
                                     labelText: 'Nom',
                                     labelStyle: TextStyle(color: primaryColor)),
-                                validator: (value) =>
-                                    value == null || value.isEmpty
-                                        ? "Entrez votre nom"
-                                        : null,
+                                validator: FieldValidator.validateName
                               ),
                             ),
 
@@ -157,10 +154,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                 decoration: textInputDecoration.copyWith(
                                     labelText: 'Prénom',
                                     labelStyle: TextStyle(color: primaryColor)),
-                                validator: (value) =>
-                                    value == null || value.isEmpty
-                                        ? "Entrez votre prénom"
-                                        : null,
+                                validator: FieldValidator.validateFirstname
                               ),
                             ),
                           ],

@@ -32,4 +32,24 @@ void main() {
     expect(result, '');
   });
 
+  test('Valid Name Test', () {
+    var result = FieldValidator.validatePassword('ajay');
+    expect(result, '');
+  });
+
+  test('Empty Name Test', () {
+    var result = FieldValidator.validatePassword('');
+    expect(result, 'Entrez votre nom');
+  });
+
+  test('Valid Firstname Test', () {
+    var result = FieldValidator.validatePassword('ajay');
+    expect(result, '');
+  });
+
+  test('Empty Password Test', () {
+    var result = FieldValidator.validatePassword('');
+    expect(result, 'Entrez votre prenom');
+  });
+
 }
