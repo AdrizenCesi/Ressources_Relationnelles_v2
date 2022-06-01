@@ -33,22 +33,22 @@ void main() {
   });
 
   test('Valid Name Test', () {
-    var result = FieldValidator.validatePassword('ajay');
+    var result = FieldValidator.validateName('ajay');
     expect(result, '');
   });
 
   test('Empty Name Test', () {
-    var result = FieldValidator.validatePassword('');
+    var result = FieldValidator.validateName('');
     expect(result, 'Entrez votre nom');
   });
 
   test('Valid Firstname Test', () {
-    var result = FieldValidator.validatePassword('ajay');
+    var result = FieldValidator.validateFirstname('ajay');
     expect(result, '');
   });
 
-  test('Empty Password Test', () {
-    var result = FieldValidator.validatePassword('');
+  test('Empty Firstname Test', () {
+    var result = FieldValidator.validateFirstname('');
     expect(result, 'Entrez votre prenom');
   });
 
