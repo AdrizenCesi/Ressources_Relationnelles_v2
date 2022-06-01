@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:ressources_relationnelles_v1/main.dart';
+import 'package:ressources_relationnelles_v1/pages/auth/authenticateScreen.dart';
 
 import 'package:ressources_relationnelles_v1/pages/auth/validator.dart';
 
